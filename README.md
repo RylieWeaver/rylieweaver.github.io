@@ -1,2 +1,2 @@
-# rylie_weaver.github.io
+# rylieweaver.github.io
 GitHub websites.
