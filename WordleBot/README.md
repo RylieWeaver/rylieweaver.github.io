@@ -60,7 +60,7 @@ so that the parameters of WordleBot do receive a signal to follow these given ru
 
 ### Guess-State Attention
 
-We compute the probability vector for the action space as:
+We compute WordleBot's probability vector for the action space as:
 
 P = softmax_T(phi_1(S) phi_2(A) / sqrt(d))
 
@@ -68,7 +68,12 @@ Note that this is exactly the same formula for attention weights in Transformers
 
 ### Reward Function
 
-The reward function is set as the average entropy gain over 'm' possible target words where 'm' is set as a hyperparameter.
+The reward function is set as the average entropy gain over 'm' possible target words where 'm' is set as a hyperparameter. So, given a state S, the total possible target vocab T, and a set of M-subset-V possible target words \
+given the state S, then:
+
+R = 1/m sum[ entropy(S) - entropy(S+1 | t=m_i)]
+
+where m_i are sample from M (without replacement if m >= |M| and with replacement is m <= |M|).
 
 
 
@@ -85,3 +90,4 @@ For example such as choosing a given word when it is the only possible target, o
 
 
 My Contacts: LinkedIn(link)  |  Email: rylieweaver9@gmail.com
+
