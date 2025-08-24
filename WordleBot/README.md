@@ -30,16 +30,16 @@ At a high level, WordleBot is an A2C (Advantage Actor-Critic) neural network tra
 ### Wordle
 
 Wordle is a game run by the New York Times where the goal is to guess an unknown 5-letter word (which we will call the target word) in as few attempts as possible (with a hard cap at 6). After each guess, the characters in the guessed word are highlighted according to their presence in the target word:
-- **Green** in the target word at that location
-- **Yellow** in the target word but not at that location, and the total number of greens/yellows does not exceed the count in the target word (characters on the left are given priority to be marked yellow).
-- **Grey** not in the target word or otherwise did not fit green/yellow requirements
+- **Green**: in the target word at that location
+- **Yellow**: in the target word but not at that location, and the total number of greens/yellows does not exceed the count in the target word (characters on the left are given priority to be marked yellow).
+- **Grey**: not in the target word or otherwise did not fit green/yellow requirements
 
 <p align="left">
   <img src="images/game_peril.png" alt="Wordle game" width="300"/>
 </p>
 
 Besides small changes made since its release, Wordle has a total vocabulary of 12,972 words, of which 2,315 are possible target words. With those vocab sizes and 6 possible guesses, the maximum possible number of unique Wordle games is:
-$$12972^6 \times 2315 \approx 10^{28}.$$
+$$12972^6 \times 2315 \approx 10^{24}.$$
 (quite large).
 
 ### Existing Approaches
@@ -52,11 +52,7 @@ Heuristic:
 
 ### Reinforcement Learning
 
-In Reinforcement Learning, a model takes in an input state, produces an action, and then receives a reward/penalty that gives feedback on that action. Despite its simple core RL has made a large impact on many machine learning application areas, including modern LLMs (large language models) lke ChatGPT. In particular, RL has been used to develop world-class or even superhuman level performance at varios games, including Chess, Go, DOTA, and Starcraft. I was inspired by the success of these models and wanted to better understand how they work, so decided to make a bot of my own on a much simpler game. 
-
-Deep Reinforcement Learning uses deep neural networks as the core model architecture, and particularly shines over simpler methods (such as heuristics) when the action space and/or game length is exceedingly large.
-Wordle is a game published by the New York Times, where the goal is to guess a certain target word given 6 guesses. After each guess, the user gets feedback ***. There are ~13k allowed guess words, and 2315 possible \
-target words. This makes the total number of possible Wordle games = ***.
+In Reinforcement Learning, a model takes in an input state, produces an action, and then receives a reward/penalty that gives feedback on that action. Despite its simple core RL has made a large impact on many machine learning application areas, including modern LLMs (large language models) lke ChatGPT. In particular, RL has been used to develop world-class or even superhuman level performance at varios games, including Chess, Go, DOTA, and Starcraft. Deep Reinforcement Learning uses deep neural networks as the core model architecture, and particularly shines over simpler methods (such as heuristics) when the action space and/or game length is exceedingly large. I was inspired by the success of these models and wanted to better understand how they work, so decided to make a bot on the much simpler game of Wordle.  
 
 
 ## WordleBot
@@ -114,6 +110,7 @@ For example such as choosing a given word when it is the only possible target, o
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
 My Contacts: LinkedIn(link)  |  Email: rylieweaver9@gmail.com  |  [GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
