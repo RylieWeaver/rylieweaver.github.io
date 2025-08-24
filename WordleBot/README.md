@@ -27,13 +27,19 @@ At a high level, WordleBot is an A2C (Advantage Actor-Critic) neural network tra
 
 ### Wordle
 
-Wordle is a game published by the New York Times, where the goal is to guess a certain target word given 6 guesses. After each guess, the user gets feedback ***. There are ~13k allowed guess words, and 2315 possible \
-target words. This makes the total number of possible Wordle games = ***.
+Wordle is a game run by the New York Times where the goal is to guess an unknown 5-letter word (which we will call the target word) in as few attempts as possible (with a hard cap at 6). After each guess, the characters in the guessed word are highlighted according to their presence in the target word. For each character, it (i) turns grey if it is not in the target word, (ii) turns green if it is in the target word at that location, and (iii) turns yellow if it is in the target word, not at that location, and not exceeding the total count of occurences in the target word. An example Wordle game is pictured below where the target word is "peril".
 
-Wordle is a game run by the New York Times where the goal is to guess an unknown 5-letter word (which we will call the target word) in as few attempts as possible (with a hard cap at 6). After each guess, the player receives feedback from the game, which comes in the form of color highlighting for each of the characters in the guessed word. For each character, it (i) turns grey if it is not in the target word, (ii) turns green if it is in the target word at that location, and (iii) turns yellow if it is in the target word, but not at that location (aside from the following exception). The one exception where a letter may not turn yellow despite fitting the description of (iii) is when a letter appears more times in the guessed word than the target word. In such a case, the count of greens/yellows is capped by the number of occurences of that letter in the target word, with greens/leftmost characters being given priority. For example, if the target word is "model" and the guess word was "mummy", only the leftmost "m" would turn green and all other occurrences gray. Similarly, if the target word was "model" and the guess word was "dummy", only the leftmost "m" would appear yellow and all others gray. An example Wordle game is pictured below, where the target word "peril" is successfully guessed after three moves.
+<p align="left">
+  <img src="images/game_peril.png" alt="Wordle game" width="300"/>
+</p>
 
-![Illustration of a Wordle game with the target word peril.](images/game_peril.png)
+Besides small changes made since its release, Wordle has a total vocabulary of 12,972 words, of which 2,315 are possible target words. With those vocab sizes and 6 possible guesses, the maximum possible number of unique Wordle games is:
 
+\[
+12972^6 \times 2315 \;\approx\; 10^{28}
+\]
+
+(quite large).
 
 ### Existing Approaches
 
@@ -43,10 +49,13 @@ Heuristic:
 - meanmax overall
 - deep learning github post (this one inspired me in particular)
 
-### Deep Reinforcement Learning
-Deep Reinforcement Learning is the field that combines deep neural networks with reinforcement learning training. Some interesting areas this has made impact are ChatGPT, AlphaZero(Link), and ***. In particular, \
-reinforcement learning has shown to make superhuman performance in a variety of games (Chess, Go, ***). At fundamental level, in RL, a model takes in an input state, produces an action, and then receives a reward/penalty \
-that gives feedback on that action. I was inspired by the success of these models and wanted to better understand how they work, so decided to make a bot of my own on a much simpler game.
+### Reinforcement Learning
+
+In Reinforcement Learning, a model takes in an input state, produces an action, and then receives a reward/penalty that gives feedback on that action. Despite its simple core RL has made a large impact on many machine learning application areas, including modern LLMs (large language models) lke ChatGPT. In particular, RL has been used to develop world-class or even superhuman level performance at varios games, including Chess, Go, DOTA, and Starcraft. I was inspired by the success of these models and wanted to better understand how they work, so decided to make a bot of my own on a much simpler game. 
+
+Deep Reinforcement Learning uses deep neural networks as the core model architecture, and particularly shines over simpler methods (such as heuristics) when the action space and/or game length is exceedingly large.
+Wordle is a game published by the New York Times, where the goal is to guess a certain target word given 6 guesses. After each guess, the user gets feedback ***. There are ~13k allowed guess words, and 2315 possible \
+target words. This makes the total number of possible Wordle games = ***.
 
 
 ## WordleBot
@@ -104,6 +113,7 @@ For example such as choosing a given word when it is the only possible target, o
 
 
 My Contacts: LinkedIn(link)  |  Email: rylieweaver9@gmail.com
+
 
 
 
