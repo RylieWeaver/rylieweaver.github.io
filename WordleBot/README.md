@@ -1,11 +1,13 @@
 # WordleBot
 
-I've built an AI bot to play **Wordle** using Deep Reinforcement Learning!  
+I've built an AI bot to play **Wordle** using Deep Reinforcement Learning! [WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  
 
-[Try Out WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot) (please share it with anyone who may be interested!)  
-[GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
+WordleBot Stats:  
+1. **100%** Accuracy  
+2. **3.53** Avg Guesses  
+3. **~30M** Games Playes
 
-WordleBot was trained for **~30M** games and gets the correct word **100% of the time** with an average of **3.53 guesses** (and still improving).  
+[Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  
 
 ---
 
@@ -27,18 +29,17 @@ At a high level, WordleBot is an A2C (Advantage Actor-Critic) neural network tra
 
 ### Wordle
 
-Wordle is a game run by the New York Times where the goal is to guess an unknown 5-letter word (which we will call the target word) in as few attempts as possible (with a hard cap at 6). After each guess, the characters in the guessed word are highlighted according to their presence in the target word. For each character, it (i) turns grey if it is not in the target word, (ii) turns green if it is in the target word at that location, and (iii) turns yellow if it is in the target word, not at that location, and not exceeding the total count of occurences in the target word. An example Wordle game is pictured below where the target word is "peril".
+Wordle is a game run by the New York Times where the goal is to guess an unknown 5-letter word (which we will call the target word) in as few attempts as possible (with a hard cap at 6). After each guess, the characters in the guessed word are highlighted according to their presence in the target word:
+- **Green** in the target word at that location
+- **Yellow** in the target word but not at that location, and the total number of greens/yellows does not exceed the count in the target word (characters on the left are given priority to be marked yellow).
+- **Grey** not in the target word or otherwise did not fit green/yellow requirements
 
 <p align="left">
   <img src="images/game_peril.png" alt="Wordle game" width="300"/>
 </p>
 
 Besides small changes made since its release, Wordle has a total vocabulary of 12,972 words, of which 2,315 are possible target words. With those vocab sizes and 6 possible guesses, the maximum possible number of unique Wordle games is:
-
-\[
-12972^6 \times 2315 \;\approx\; 10^{28}
-\]
-
+$$12972^6 \times 2315 \approx 10^{28}.$$
 (quite large).
 
 ### Existing Approaches
@@ -110,9 +111,10 @@ For example such as choosing a given word when it is the only possible target, o
 
 
 
+[WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
+My Contacts: LinkedIn(link)  |  Email: rylieweaver9@gmail.com  |  [GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
-My Contacts: LinkedIn(link)  |  Email: rylieweaver9@gmail.com
 
 
 
