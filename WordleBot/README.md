@@ -5,7 +5,7 @@ I've built an AI bot to play **Wordle** using Deep Reinforcement Learning!
 [Try Out WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot) (please share it with anyone who may be interested!)  
 [GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
-WordleBot was trained for **~30M** games and gets the correct word **100% of the time** with an average of **3.55 guesses** (and still improving).  
+WordleBot was trained for **~30M** games and gets the correct word **100% of the time** with an average of **3.53 guesses** (and still improving).  
 
 ---
 
@@ -32,7 +32,7 @@ target words. This makes the total number of possible Wordle games = ***.
 
 Wordle is a game run by the New York Times where the goal is to guess an unknown 5-letter word (which we will call the target word) in as few attempts as possible (with a hard cap at 6). After each guess, the player receives feedback from the game, which comes in the form of color highlighting for each of the characters in the guessed word. For each character, it (i) turns grey if it is not in the target word, (ii) turns green if it is in the target word at that location, and (iii) turns yellow if it is in the target word, but not at that location (aside from the following exception). The one exception where a letter may not turn yellow despite fitting the description of (iii) is when a letter appears more times in the guessed word than the target word. In such a case, the count of greens/yellows is capped by the number of occurences of that letter in the target word, with greens/leftmost characters being given priority. For example, if the target word is "model" and the guess word was "mummy", only the leftmost "m" would turn green and all other occurrences gray. Similarly, if the target word was "model" and the guess word was "dummy", only the leftmost "m" would appear yellow and all others gray. An example Wordle game is pictured below, where the target word "peril" is successfully guessed after three moves.
 
-![Illustration of a Wordle game with the target word peril.](images/peril.png)
+![Illustration of a Wordle game with the target word peril.](images/game_peril.png)
 
 
 ### Existing Approaches
@@ -104,6 +104,7 @@ For example such as choosing a given word when it is the only possible target, o
 
 
 My Contacts: LinkedIn(link)  |  Email: rylieweaver9@gmail.com
+
 
 
 
