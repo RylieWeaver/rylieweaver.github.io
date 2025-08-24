@@ -30,18 +30,9 @@ At a high level, WordleBot is an A2C (Advantage Actor-Critic) neural network tra
 Wordle is a game published by the New York Times, where the goal is to guess a certain target word given 6 guesses. After each guess, the user gets feedback ***. There are ~13k allowed guess words, and 2315 possible \
 target words. This makes the total number of possible Wordle games = ***.
 
-Wordle is a game run by the New York Times where the goal is to guess an unknown 5-letter word (which we will call the target word) in as few attempts as possible (with a hard cap at 6). After each guess, the player receives feedback from the game, which comes in the form of color highlighting for each of the characters in the guessed word. For each character, it (i) turns grey if it is not in the target word, (ii) turns green if it is in the target word at that location, and (iii) turns yellow if it is in the target word, but not at that location (aside from the following exception). The one exception where a letter may not turn yellow despite fitting the description of (iii) is when a letter appears more times in the guessed word than the target word. In such a case, the count of greens/yellows is capped by the number of occurences of that letter in the target word, with greens/leftmost characters being given priority. For example, if the target word is "model" and the guess word was "mummy", only the leftmost "m" would turn green and all other occurrences gray. Similarly, if the target word was "model" and the guess word was "dummy", only the leftmost "m" would appear yellow and all others gray. 
+Wordle is a game run by the New York Times where the goal is to guess an unknown 5-letter word (which we will call the target word) in as few attempts as possible (with a hard cap at 6). After each guess, the player receives feedback from the game, which comes in the form of color highlighting for each of the characters in the guessed word. For each character, it (i) turns grey if it is not in the target word, (ii) turns green if it is in the target word at that location, and (iii) turns yellow if it is in the target word, but not at that location (aside from the following exception). The one exception where a letter may not turn yellow despite fitting the description of (iii) is when a letter appears more times in the guessed word than the target word. In such a case, the count of greens/yellows is capped by the number of occurences of that letter in the target word, with greens/leftmost characters being given priority. For example, if the target word is "model" and the guess word was "mummy", only the leftmost "m" would turn green and all other occurrences gray. Similarly, if the target word was "model" and the guess word was "dummy", only the leftmost "m" would appear yellow and all others gray. An example Wordle game is pictured below, where the target word "peril" is successfully guessed after three moves.
 
-An example Wordle game is pictured in  Figure~\ref{fig:peril} below, where the target word "peril" is successfully guessed after three moves.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.3\linewidth]{images/peril.png}
-    \caption{Illustration of a Wordle game with the target word peril.}
-    \label{fig:peril}
-\end{figure}
-
-
+![Illustration of a Wordle game with the target word peril.](images/peril.png)
 
 
 ### Existing Approaches
@@ -113,5 +104,6 @@ For example such as choosing a given word when it is the only possible target, o
 
 
 My Contacts: LinkedIn(link)  |  Email: rylieweaver9@gmail.com
+
 
 
