@@ -1,6 +1,6 @@
 # WordleBot
 
-I've built an AI bot to play **Wordle** using Deep Reinforcement Learning! [WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  
+I've built an AI bot to play **Wordle** using Deep Reinforcement Learning! 
 
 WordleBot Stats:  
 1. **100%** Accuracy  
@@ -110,6 +110,7 @@ For example such as choosing a given word when it is the only possible target, o
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
 My Contacts: LinkedIn(link)  |  Email: rylieweaver9@gmail.com  |  [GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
