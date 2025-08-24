@@ -1,17 +1,26 @@
-# Header
+# WordleBot
 
-GitHub Link: https://github.com/RylieWeaver/WordleBot
+I've built an AI bot to play **Wordle** using Deep Reinforcement Learning!  
 
+[Try Out WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot) (please share it with anyone who may be interested!)  
+[GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
+
+WordleBot was trained for **~30M** games and gets the correct word **100% of the time** with an average of **3.55 guesses** (and still improving).  
+
+---
 
 ## Summary
 
-I've made a an AI bot to play the Wordle using Deep Reinforcement Learning! It was trained for ~30M games and gets the correct word 100% of the time with an average of 3.55 guesses (and still improving). \ 
-Please do test it out here(https://huggingface.co/spaces/RylieWeaver/WordleBot) and share it with anyone who may be interested as well! At a high level, WordleBot is an A2C (Advantage Actor Critic) neural \
-network trained with PPO (Proximal Policy Optimization). In addition, the following are the distinguishing features of WordleBot and how it was trained that are both impactful to performance and outside the \
-basic norm for RL (Reinforcement Learning) systems:
-(1) Inductive Bias: WordleBot is constrained to take/not take actions that are clearly optimal or suboptimal, respectively.
-(2) Guess-State Attention: Compute the action probabilities as attention values between the state embedding and the action space embeddings.
-(3) Expected Entropy Gain as Reward Function: Define rewards as the average entropy gain over 'm' possible target words ('m' is set as a hyperparameter).
+At a high level, WordleBot is an A2C (Advantage Actor-Critic) neural network trained with PPO (Proximal Policy Optimization). In addition, the following features distinguish WordleBot and its training from more standard RL (Reinforcement Learning) systems:
+
+1. Inductive Bias:  
+   WordleBot is constrained to take/not take actions that are clearly optimal/suboptimal, respectively.
+
+2. Guess-State Attention:  
+   WordleBot computes its action probabilities as attention values between the state embedding and the action embeddings.  
+
+3. Expected Entropy Gain as Reward Function:  
+   Rewards are defined as the expected entropy gain over the target words.  
 
 
 ## Background
@@ -20,6 +29,20 @@ basic norm for RL (Reinforcement Learning) systems:
 
 Wordle is a game published by the New York Times, where the goal is to guess a certain target word given 6 guesses. After each guess, the user gets feedback ***. There are ~13k allowed guess words, and 2315 possible \
 target words. This makes the total number of possible Wordle games = ***.
+
+Wordle is a game run by the New York Times where the goal is to guess an unknown 5-letter word (which we will call the target word) in as few attempts as possible (with a hard cap at 6). After each guess, the player receives feedback from the game, which comes in the form of color highlighting for each of the characters in the guessed word. For each character, it (i) turns grey if it is not in the target word, (ii) turns green if it is in the target word at that location, and (iii) turns yellow if it is in the target word, but not at that location (aside from the following exception). The one exception where a letter may not turn yellow despite fitting the description of (iii) is when a letter appears more times in the guessed word than the target word. In such a case, the count of greens/yellows is capped by the number of occurences of that letter in the target word, with greens/leftmost characters being given priority. For example, if the target word is "model" and the guess word was "mummy", only the leftmost "m" would turn green and all other occurrences gray. Similarly, if the target word was "model" and the guess word was "dummy", only the leftmost "m" would appear yellow and all others gray. 
+
+An example Wordle game is pictured in  Figure~\ref{fig:peril} below, where the target word "peril" is successfully guessed after three moves.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\linewidth]{images/peril.png}
+    \caption{Illustration of a Wordle game with the target word peril.}
+    \label{fig:peril}
+\end{figure}
+
+
+
 
 ### Existing Approaches
 
@@ -90,4 +113,5 @@ For example such as choosing a given word when it is the only possible target, o
 
 
 My Contacts: LinkedIn(link)  |  Email: rylieweaver9@gmail.com
+
 
