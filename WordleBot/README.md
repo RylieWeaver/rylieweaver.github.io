@@ -70,6 +70,11 @@ The state that is given WordleBot is the concatenation of the known information 
   - 1 for the minimum number of known occurrences of the letter
 #### 2. Guess State (size 6)
 - A one-hot vector representing the current guess number (1 through 6), which tells WordleBot how far along in the game it is.
+#### 3. Action (size 130 = 26 × 5)
+- Each action corresponds to a guessing a 5-letter word.
+- The concatentation of five one-hot vectors, one for each position (26 possible letters × 5 positions).
+
+---
 
 Note that many people would encode 15 features per letter (5 positions x 3 colors: green, yellow, grey). However, this state representation has significant crossover information that I would rather have compressed. A couple examples are:
 - Grey implies "letter nowhere", regardless of the location it's observed.
@@ -77,22 +82,34 @@ Note that many people would encode 15 features per letter (5 positions x 3 color
 - Green implies both "letter here" and "all other letters not here"
 This 11-feature representation compresses the state size while keeping all the same information.
 
----
-
-#### 3. Action (size 130 = 26 × 5)
-- Each action corresponds to a guessing a 5-letter word.
-- The concatentation of five one-hot vectors, one for each position (26 possible letters × 5 positions).
-
-
 ### Inductive Bias
 
-There are certain optimal/suboptimal actions that are clear given a certain state. The arise in the form of rules that WordleBot's actions are constrained to follow. Specifically, the inductive biases that WordleBot follows are:
-- If there is only one possible target word given the state, then WordleBot should guess that word.
-- If WordleBot is on the last guess, then guess one of the possible target words.
-- If WordleBot has already guessed a certain word, then don't guess it again.
+Some actions in Wordle are clearly optimal or suboptimal given the current state, which can be succinctly stated as rules on the action space (a.k.a inductive biases). WordleBot is constrained in its training and evaluation to follow three inductive biases in its training and evaluation:  
+- **No repeats:** Never guess the same word twice.  
+- **Single target word:** If there is only one possible target word, guess that word.  
+- **Final guess:** If on the last guess, choose from the remaining possible target words.  
 
-By constraining WordleBot to follow these rules, we significantly decrease the size of the learning task that we give to WordleBot. In addition, we implement a KL-Div loss between the constrained and output probabilities of \
-so that the parameters of WordleBot do receive a signal to follow these given rules.
+However, if we only constrain the action space with no other changes, the model does not get to experience the negative impacts of those choosing suboptimal actions, depriving it of a valuable gradient signal. To address this, we add a KL-divergence loss term (called KL-Guide loss) between the model's raw policy and its constrained policy (a masked and renormalized version of the raw policy). This ensures WordleBot’s parameters still receive a learning signal aligned with the inductive biases that we have chosen. In fact, this learning signal is especially rich because it can give feedback on many output probabilites at once, as opposed to experiential learning that only gives feedback on the chosen action. For example, if there is only one possible target word, the KL-Guide loss gives a gradient signal to ALL 12972 probabilities (increase 1 probability and decrease the 12971 others).
+
+
+
+
+
+---
+
+#### KL-Divergence (Markdown Math)
+
+With math support enabled (MathJax/KaTeX), you can write it directly in Markdown:
+
+$$
+\mathcal{L}_{\text{KL}} = D_{\text{KL}}\!\left(\pi_{\text{constrained}} \;\|\; \pi_{\theta}\right)
+$$
+
+
+
+
+
+
 
 ### Guess-State Attention
 
@@ -126,6 +143,7 @@ For example such as choosing a given word when it is the only possible target, o
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
 My Contacts: LinkedIn(link)  |  Email: rylieweaver9@gmail.com  |  [GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
