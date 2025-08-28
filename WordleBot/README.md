@@ -44,11 +44,14 @@ $$12972^6 \times 2315 \approx 10^{24}.$$
 
 ### Existing Approaches
 
-There are quite a few different attempts of others for Wordle, including heuristic solvers and machine learning models. Here are some:
-Heuristic:
-- minmax or meanmax entropy greedy
-- meanmax overall
-- deep learning github post (this one inspired me in particular)
+There are quite a few different attempts of others for Wordle, including the use of heuristics, other machine learning models, and even brute force algorithms that fully solved the game. Yes, you read that right; Wordle has been solved for the goal of minimizing the average number of guesses with 100% accuracy. The exact stats are 100% accuracy with an average of 3.42 guesses. By definition, there is no chance that WordleBot can beat that optimal algorithm, so why still make it? Firstly, WordleBot is, as far as I know, the most performant deep learning model for playing Wordle, and the insights gained can advise other deep learning enthusiasts on RL for game-playing. Secondly, it was quite fun! As said before, there are quite a few other attempts out there, but here are some significant ones that I've found (note that MinMean Entropy and Maximum Information Gain are equivalent): 
+- Greedy MinMean Entropy: [Link1](https://jluebeck.github.io/posts/WordleSolver) [Link2](https://nhsjs.com/wp-content/uploads/2024/04/Using-Information-Theory-to-Play-Wordle-as-Optimally-as-Possible.pdf)  
+- [2-Step Maximum Information Gain](https://www.youtube.com/watch?v=v68zYyaEmEA) (inspired me to make this WordleBot!)  
+- [Heuristic + Rollout](https://arxiv.org/pdf/2211.10298)  
+- [Various Heuristic Comparisons](https://arxiv.org/pdf/2408.11730)  
+- [Decision Trees](https://jonathanolson.net/experiments/optimal-wordle-solutions)  
+- [Deep Leaning](https://andrewkho.github.io/wordle-solver/) (inspired WordleBot's Guess-State Attention!)  
+- Optimal Strategy: [Link1](https://auction-upload-files.s3.amazonaws.com/Wordle_Paper_Final.pdf) [Link2](https://sonorouschocolate.com/notes/index.php/)  
 
 ### Reinforcement Learning
 
@@ -110,6 +113,7 @@ For example such as choosing a given word when it is the only possible target, o
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
 My Contacts: LinkedIn(link)  |  Email: rylieweaver9@gmail.com  |  [GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
