@@ -147,27 +147,26 @@ where the expectation is over target words $w \in \mathcal{W}$.
 
 
 
+### Why Reward Averaging Does Not Change the Optimal Policy
 
-**Why Reward Averaging Does Not Change the Optimal Policy**  
 The optimal policy in RL maximizes expected discounted returns:
 $$
-\pi^* \;=\; \arg \max_{\pi} \; \mathbb{E}_{w \sim \mathcal{W}} \Bigg[
-   \sum_{t=1}^{T} \gamma^t \, r_t^{(w)}
-\Bigg],
+\pi^* \;=\; \arg\max_{\pi}\; \mathbb{E}_{w\sim\mathcal{W}}
+\Bigg[ \sum_{t=1}^{T} \gamma^{t}\, r_t^{(w)} \Bigg],
 $$
 where the expectation is over target words \(w \in \mathcal{W}\) and, in our setting, the posterior is **uniform**:
-\(\Pr(W=w)=1/M\) for all \(w \in \mathcal{W}\).
+\(\Pr(W=w)=1/M\) for all \(w\in\mathcal{W}\).
 
 **Claim.** If at a state \(s\) we estimate the objective by sampling \(m\) words from \(\mathcal{W}\) uniformly (with or without replacement) and averaging their returns, the estimator is **unbiased**, so the **optimal policy is unchanged**.
 
-**Proof.**  
-Let
+**Proof.** Let
 \[
-G_\pi(w)\;:=\;\sum_{t=1}^{T}\gamma^{t-1} r_t^{(w)}\quad\text{and}\quad
+G_\pi(w)\;:=\;\sum_{t=1}^{T}\gamma^{t}\, r_t^{(w)}
+\quad\text{and}\quad
 J(\pi)\;:=\;\mathbb{E}_{W}\!\left[G_\pi(W)\right]
 =\frac{1}{M}\sum_{w\in\mathcal{W}} G_\pi(w).
 \]
-Draw a (multi)set \(S\) of size \(m\) by sampling words uniformly from \(\mathcal{W}\). Define the sample mean
+Draw a (multi)set \(S\) of size \(m\) by sampling words uniformly from \(\mathcal{W}\), and define the sample mean
 \[
 \widehat{J}_m(\pi)\;:=\;\frac{1}{m}\sum_{w\in S} G_\pi(w).
 \]
@@ -175,9 +174,9 @@ Write \(C(u)\) for the (random) number of times word \(u\) appears in \(S\). The
 \[
 \widehat{J}_m(\pi)\;=\;\frac{1}{m}\sum_{u\in\mathcal{W}} C(u)\,G_\pi(u),
 \qquad
-\mathbb{E}[C(u)] \;=\; \frac{m}{M}
+\mathbb{E}[C(u)] \;=\; \frac{m}{M},
 \]
-(the last equality holds for **with replacement** since each draw hits \(u\) with prob. \(1/M\), and for **without replacement** by simple random sampling symmetry). Therefore,
+where \(\mathbb{E}[C(u)]=m/M\) holds for **with replacement** (each draw hits \(u\) with prob. \(1/M\)) and for **without replacement** by symmetry of simple random sampling. Therefore,
 \[
 \mathbb{E}\big[\widehat{J}_m(\pi)\big]
 =\frac{1}{m}\sum_{u} \mathbb{E}[C(u)]\,G_\pi(u)
@@ -186,8 +185,7 @@ Write \(C(u)\) for the (random) number of times word \(u\) appears in \(S\). The
 =J(\pi).
 \]
 Hence \(\widehat{J}_m(\pi)\) is an unbiased estimator of \(J(\pi)\). Maximizing
-\(\mathbb{E}[\widehat{J}_m(\pi)]\) is equivalent to maximizing \(J(\pi)\); the **argmax over policies is the same**. Larger \(m\) reduces variance but does not change the optimum. \(\square\)
-
+\(\mathbb{E}[\widehat{J}_m(\pi)]\) is equivalent to maximizing \(J(\pi)\); the **argmax over policies is the same**. Increasing \(m\) reduces variance but does not change the optimum. \(\square\)
 
 
 
@@ -212,6 +210,7 @@ For example such as choosing a given word when it is the only possible target, o
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
 My Contacts: LinkedIn(link)  |  Email: rylieweaver9@gmail.com  |  [GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
