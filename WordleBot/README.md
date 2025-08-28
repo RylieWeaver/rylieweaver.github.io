@@ -62,14 +62,26 @@ In Reinforcement Learning, a model takes in an input state, produces an action, 
 
 ### State and Action Representation
 
-State:
-The state for Wordle that is given WordleBot is size 292=(26*11)+6. This comes from the fact that we have 11 pieces of information for 26 letters in the alphabet, plus 6 total possible guesses in the game. The 11 pieces of \
-information breaks down as follows: 5 of them indicate places we know the letter IS in the target word, 5 of them indicate places we know the letter ISN't in the taret word, and 1 indicates the minimum number of times we know \
-that letter appears in the target word.
+The state that is given WordleBot is the concatenation of the known information (alphabet state) and guess number (guess state). 
+(1) Alphabet State: (size 286 = 26 \times 11)
+- Each of the 26 letters in the English alphabet is represented with 11 features
+- The 11 features decompose as:
+  - 5 to indicate if we know a letter occurs at the corresponding position
+  - 5 to indicate if we know a letter does not occur at the corresponding location
+  - 1 to indicate the minimum number of occurrences of that letter
+(2) Guess State: (size 6)
+- A one-hot vector representing the current guess number (1 through 6). This tells us how far along in the game we are.
 
-Action:
-The possible actions for Wordle are all 5-letter words where each letter comes from a 26-letter alphabet. The action representation is resultingly a one-hot encoded as a one-hot encoding of the letter-action pairs with size \
-130=(26*5), with 5 of indices in the one hot vector with a '1' and all others as '0'.
+Note that many people would naively set 15 features per letter in the alphabet state, corresponding to 5 positions times 3 colors (green, yellow, grey). However, this state representation has significant crossover information that I would rather have compressed. A couple examples are:
+- The information from a grey letter is the same regardless of location.
+- Both grey and yellow tell us a letter doesn't occur at a certain location.
+- Green tells us not only that a letter occurs at a certain location, but also that all other letters don't occur at that location.
+My choice of alphabet state representation is made to maximize compresseion (the feature size) while retaining all the same information.
+
+Each action corresponds to a guessing a 5-letter word.
+(3) Action: (size 130 = 26 \times 5)
+- The concatentation of five one-hot vectors, one for each letter position (26 possible letters × 5 positions).
+
 
 ### Inductive Bias
 
@@ -113,6 +125,7 @@ For example such as choosing a given word when it is the only possible target, o
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
 My Contacts: LinkedIn(link)  |  Email: rylieweaver9@gmail.com  |  [GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
