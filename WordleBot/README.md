@@ -69,9 +69,11 @@ The state that is given WordleBot is the concatenation of the known information 
 - Each of the 26 letters in the English alphabet is represented with 11 features:  
   - 5 for positions where the letter is known to occur  
   - 5 for positions where the letter is known to not occur  
-  - 1 for the minimum number of known occurrences of the letter  
+  - 1 for the minimum number of known occurrences of the letter
+
 #### 2. Guess State (size 6)  
-- A one-hot vector representing the current guess number (1 through 6), which tells WordleBot how far along in the game it is.  
+- A one-hot vector representing the current guess number (1 through 6), which tells WordleBot how far along in the game it is.
+ 
 #### 3. Action (size 130 = 26 × 5)  
 - Each action corresponds to a guessing a 5-letter word.  
 - The concatenation of five one-hot vectors, one for each position (26 possible letters × 5 positions).  
@@ -118,12 +120,39 @@ By utilizing embeddings of the state AND actions, rather than just the state, Wo
 
 ### Reward Function
 
-The reward function is set as the average entropy gain over 'm' possible target words where 'm' is set as a hyperparameter. So, given a state S, the total possible target vocab T, and a set of M-subset-V possible target words \
-given the state S, then:
+WordleBot is given the average reward over *m* possible target words in a state, where *m* is a hyperparameter:
 
-R = 1/m sum[ entropy(S) - entropy(S+1 | t=m_i)]
+$$
+R = \frac{1}{m} \sum_{i=1}^{m} R_{\text{baseline}}^{(i)} .
+$$
+
+This reduces reward variance while preserving the same optimal policy.  
+
+**Baseline Reward**  
+For each target word, the baseline reward is defined as the sum of two components:
+- **Normalized Information Gain:** entropy reduction of the vocabulary, scaled to [0, 1]   
+- **Correct word bonus:** $+0.1$ if the correct target word is guessed  
+
+**Why Reward Averaging Does Not Change the Optimal Policy**  
+The optimal policy in RL is defined as the one that maximizes expected discounted returns:
+
+$$
+\pi^* \;=\; \arg \max_{\pi} \; \mathbb{E}_{w \sim \mathcal{W}} \Bigg[ 
+   \sum_{t=1}^{T} \gamma^t \, r_t^{(w)} 
+\Bigg],
+$$
+
+where the expectation is over target words $w \in \mathcal{W}$.  
+
+Using 
+
+
 
 where m_i are sample from M (without replacement if m >= |M| and with replacement is m <= |M|).
+
+
+
+
 
 
 
@@ -140,6 +169,7 @@ For example such as choosing a given word when it is the only possible target, o
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
 My Contacts: LinkedIn(link)  |  Email: rylieweaver9@gmail.com  |  [GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
