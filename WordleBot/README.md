@@ -5,7 +5,7 @@ I've built an AI bot to play **Wordle** using Deep Reinforcement Learning!
 WordleBot Stats:  
 1. **100%** Accuracy  
 2. **3.53** Avg Guesses  
-3. **~30M** Games Playes
+3. **~30M** Games Played
 
 [Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  
 
@@ -18,7 +18,7 @@ At a high level, WordleBot is an A2C (Advantage Actor-Critic) neural network tra
 1. Inductive Bias:  
    WordleBot is constrained to take/not take actions that are clearly optimal/suboptimal, respectively.
 
-2. Guess-State Attention:  
+2. Action-State Attention:  
    WordleBot computes its action probabilities as attention values between the state embedding and the action embeddings.  
 
 3. Expected Entropy Gain as Reward Function:  
@@ -50,7 +50,7 @@ There are quite a few different attempts of others for Wordle, including the use
 - [Heuristic + Rollout](https://arxiv.org/pdf/2211.10298)  
 - [Various Heuristic Comparisons](https://arxiv.org/pdf/2408.11730)  
 - [Decision Trees](https://jonathanolson.net/experiments/optimal-wordle-solutions)  
-- [Deep Leaning](https://andrewkho.github.io/wordle-solver/) (inspired WordleBot's Guess-State Attention!)  
+- [Deep Learning](https://andrewkho.github.io/wordle-solver/) (inspired WordleBot's Action-State Attention!)  
 - Optimal Strategy: [Link1](https://auction-upload-files.s3.amazonaws.com/Wordle_Paper_Final.pdf) [Link2](https://sonorouschocolate.com/notes/index.php/)  
 
 ### Reinforcement Learning
@@ -91,33 +91,30 @@ Some actions in Wordle are clearly optimal or suboptimal given the current state
 
 However, if we only constrain the action space with no other changes, the model does not get to experience the negative impacts of those choosing suboptimal actions, depriving it of a valuable gradient signal. To address this, we add a KL-divergence loss term (called KL-Guide loss) between the model's raw policy and its constrained policy (a masked and renormalized version of the raw policy). This ensures WordleBot’s parameters still receive a learning signal aligned with the inductive biases that we have chosen. In fact, this learning signal is especially rich because it can give feedback on many output probabilites at once, as opposed to experiential learning that only gives feedback on the chosen action. For example, if there is only one possible target word, the KL-Guide loss gives a gradient signal to ALL 12972 probabilities (increase 1 probability and decrease the 12971 others).
 
-
-
-
-
----
-
-#### KL-Divergence (Markdown Math)
-
-With math support enabled (MathJax/KaTeX), you can write it directly in Markdown:
-
 $$
-\mathcal{L}_{\text{KL}} = D_{\text{KL}}\!\left(\pi_{\text{constrained}} \;\|\; \pi_{\theta}\right)
+\mathcal{L}_{\text{KL-Guide Loss}}
+= D_{\text{KL}}\!\left(\pi_{\text{constrained}} \;\|\; \pi_{\theta}\right)
 $$
 
 
+### Action-State Attention
 
+WordleBot computes its probability distribution as:
 
+$$
+P = \text{softmax}_T \!\left( \frac{\phi_1(S) \, \phi_2(A)}{\sqrt{d}} \right)
+$$
 
+Here:
+- $S$ is the state representation  
+- $A$ are the action representations  
+- $d$ is the embedding dimension  
+- $T$ is the temperature parameter  
 
+Note that when $T = 1$, this is exactly the standard formula for attention weights in Transformers.  
 
-### Guess-State Attention
+By utilizing embeddings of the state AND actions, rather than just the state, WordleBot is able to transfer information between different actions. For example, if 'FIGHT' is a good guess, the, 'MIGHT' probably is too, and embedding the actions allows us to use that via shared weights. Most RL systems do not do this, instead just embedding the state and projecting to an output dimension the size of the action space. As mentioned in the related existing approaches, [Andrew Ho](https://andrewkho.github.io/wordle-solver/) used a similar mechanism for his deep learning Wordle agent, however that model used a direct dot product without dividing by the square root of the dimensionality.
 
-We compute WordleBot's probability vector for the action space as:
-
-P = softmax_T(phi_1(S) phi_2(A) / sqrt(d))
-
-Note that this is exactly the same formula for attention weights in Transformers if T=1.
 
 ### Reward Function
 
@@ -143,6 +140,7 @@ For example such as choosing a given word when it is the only possible target, o
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
 My Contacts: LinkedIn(link)  |  Email: rylieweaver9@gmail.com  |  [GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
