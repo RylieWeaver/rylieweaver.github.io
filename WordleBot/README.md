@@ -137,6 +137,7 @@ $$
 
 
 Where:
+- $\phi_1, \phi_2$ are learned functions
 - $A$ are the action representations  
 - $S$ is the state representation  
 - $d$ is the embedding dimension  
@@ -172,6 +173,7 @@ For each target word, the baseline reward is defined as the sum of two component
 
 
 [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | [Email](mailto:rylieweaver9@gmail.com) | [GitHub](https://github.com/RylieWeaver)  |  [Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  |  [WordleBot Source Code](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
