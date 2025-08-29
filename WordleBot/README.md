@@ -152,16 +152,21 @@ $$
 
 This reduces reward variance, increasing the reward for good guesses (even if not well-fit to the actual target word) and decreasing the reward for lucky guesses.  
 
-**Baseline Reward**  
 For each target word, the baseline reward is defined as the sum of two components:
 - **Normalized Information Gain:** entropy reduction of the vocabulary, scaled to [0, 1]   
 - **Correct word bonus:** $+0.1$ if the correct target word is guessed
+
+
+### Other Notes
+- Normalizing advantages per group helped a lot to improve on harder words.
+- I do have using a replay loader for harder words as an option for training, however the latest iteration of WordleBot does not use it because (1) I didn't see a big difference and (2) Even if a word is easier, I care about getting it as fast as possible, and the replay loader biases from this.
 
 
 
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
 My Contacts: [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | rylieweaver9@gmail.com | [GitHub](https://github.com/RylieWeaver)
+
 
 
 
