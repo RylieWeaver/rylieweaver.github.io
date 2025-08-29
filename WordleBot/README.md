@@ -122,6 +122,12 @@ $$
 = D_{\text{KL}}\!\left(\pi_{\theta} \;\|\; \pi_{\theta, \text{constraints}}\right)
 $$
 
+<div style="font-size:200%">
+$$
+\mathcal{L}_{\text{KL-Guide}} = D_{\text{KL}}\!\left(\pi_{\theta} \;\|\; \pi_{\theta, \text{constraints}}\right)
+$$
+</div>
+
 
 ### Action-State Attention
 
@@ -139,12 +145,12 @@ Where:
 
 Note that when $T = 1$, this is exactly the standard formula for attention weights in Transformers.  
 
-By utilizing embeddings of the state AND actions, rather than just the state, WordleBot is able to transfer information between different actions. For example, if 'FIGHT' is a good guess, then 'MIGHT' probably is too, and embedding the actions allows us to use that via shared weights. Most RL systems do not do this, instead just embedding the state and projecting to an output dimension the size of the action space. As mentioned in the related existing approaches, [Andrew Ho](https://andrewkho.github.io/wordle-solver/) used a similar mechanism for his deep learning Wordle agent, however that model used a direct dot product without dividing by the square root of the dimensionality.
+By utilizing embeddings of the state AND actions, rather than just the state, WordleBot is able to transfer information between different actions. For example, if 'FIGHT' is a good guess, then 'MIGHT' probably is too, and embedding the actions allows us to use that via shared weights. Most RL systems do not do this, instead just embedding the state and projecting to an output dimension the size of the action space. As mentioned in the related existing approaches, [Andrew Ho](https://andrewkho.github.io/wordle-solver/) used a similar mechanism for his deep learning Wordle agent, however that model used a direct dot product without dividing by the square root of the dimensionality.  
 
 
 ### Reward Function
 
-For any given state, there is a set M ⊆ V of possible target words, where |V| = 2,315. WordleBot is given the average reward over **m** possible target words sampled from M, where **m** is a hyperparameter:
+For any given state, there is a set M ⊆ V of possible target words, where V is the whole target vocabulary. WordleBot is given the average reward over **m** possible target words sampled from M, where **m** is a hyperparameter:
 
 $$
 R = \frac{1}{m} \sum_{i=1}^{m} R_{i}^{\text{baseline}} .
@@ -166,6 +172,7 @@ For each target word, the baseline reward is defined as the sum of two component
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
 My Contacts: [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | rylieweaver9@gmail.com | [GitHub](https://github.com/RylieWeaver)
+
 
 
 
