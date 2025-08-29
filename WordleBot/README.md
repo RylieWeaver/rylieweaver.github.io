@@ -21,8 +21,8 @@ At a high level, WordleBot is an A2C (Advantage Actor-Critic) neural network tra
 2. **Action-State Attention:**  
    WordleBot computes its action probabilities as attention values between the state embedding and the action embeddings.  
 
-3. **Expected Rewards Over Possible Hidden States**:  
-   Rewards are defined as the expected rewards over the possible target words.  
+3. **Averaged Rewards Over Possible Hidden States**:  
+   Rewards are defined as the average rewards over the possible target words given the known game state.  
 
 ---
 
@@ -79,7 +79,7 @@ The state that is given WordleBot is the concatenation of the known information 
 - The concatenation of five one-hot vectors, one for each position (26 possible letters × 5 positions).  
 
 Note that many people would encode 15 features per letter (5 positions x 3 colors: green, yellow, grey). However, this state representation has significant crossover information that I would rather have compressed. A couple examples are:  
-- Grey implies "letter nowhere", regardless of the location it's observed  
+- Grey implies "letter nowhere," regardless of the location it's observed  
 - Both yellow and grey at a location imply "letter not here"  
 - Green implies both "letter here" and "all other letters not here"  
 
@@ -92,10 +92,10 @@ Some actions in Wordle are clearly optimal or suboptimal given the current state
 - **Single target word:** If there is only one possible target word, guess that word.  
 - **Final guess:** If on the last guess, choose from the remaining possible target words.  
 
-However, if we only constrain the action space with no other changes, the model does not get to experience the negative impacts of those choosing suboptimal actions, depriving it of a valuable gradient signal. To address this, we add a KL-divergence loss term (called KL-Guide loss) between the model's raw policy and its constrained policy (a masked, clamped, and renormalized version of the raw policy). This ensures WordleBot’s parameters still receive a learning signal aligned with the inductive biases that we have chosen. In fact, this learning signal is especially rich because it can give feedback on many output probabilites at once, as opposed to experiential learning that only gives feedback on the chosen action. For example, if there is only one possible target word, the KL-Guide loss gives a gradient signal to ALL 12972 probabilities (namely increase 1 probability and decrease the 12971 others).  
+However, if we only constrain the action space with no other changes, the model does not get to experience the negative impacts of those choosing suboptimal actions, depriving it of a valuable gradient signal. To address this, we add a KL-divergence loss term (called KL-Guide loss) between the model's raw policy and the constrained policy (a masked, clamped, and renormalized version of the raw policy). This ensures WordleBot’s parameters still receive a learning signal aligned with the inductive biases that we have chosen. In fact, this learning signal is especially rich because it can give feedback on many output probabilites at once, as opposed to experiential learning that only gives feedback on the chosen action. For example, if there is only one possible target word, the KL-Guide loss gives a gradient signal to ALL 12972 probabilities (namely increase 1 probability and decrease the 12971 others).  
 
 $$
-\mathcal{L}_{\text{KL-Guide Loss}}
+\mathcal{L}_{\text{KL-Guide}}
 = D_{\text{KL}}\!\left(\pi_{\theta} \;\|\; \pi_{\theta, \text{constraints}}\right)
 $$
 
@@ -116,93 +116,23 @@ Where:
 
 Note that when $T = 1$, this is exactly the standard formula for attention weights in Transformers.  
 
-By utilizing embeddings of the state AND actions, rather than just the state, WordleBot is able to transfer information between different actions. For example, if 'FIGHT' is a good guess, the, 'MIGHT' probably is too, and embedding the actions allows us to use that via shared weights. Most RL systems do not do this, instead just embedding the state and projecting to an output dimension the size of the action space. As mentioned in the related existing approaches, [Andrew Ho](https://andrewkho.github.io/wordle-solver/) used a similar mechanism for his deep learning Wordle agent, however that model used a direct dot product without dividing by the square root of the dimensionality.
+By utilizing embeddings of the state AND actions, rather than just the state, WordleBot is able to transfer information between different actions. For example, if 'FIGHT' is a good guess, then 'MIGHT' probably is too, and embedding the actions allows us to use that via shared weights. Most RL systems do not do this, instead just embedding the state and projecting to an output dimension the size of the action space. As mentioned in the related existing approaches, [Andrew Ho](https://andrewkho.github.io/wordle-solver/) used a similar mechanism for his deep learning Wordle agent, however that model used a direct dot product without dividing by the square root of the dimensionality.
 
 
 ### Reward Function
 
-For any given state, there is a set of M \subset V possible target words where V is the total vocabulary of 2315. WordleBot is given the average reward over *m* possible target words sampled from M, where *m* is a hyperparameter:
+For any given state, there is a set of \(\text{M} \subseteq \text{V}\) possible target words where V is the total vocabulary of 2315. WordleBot is given the average reward over **m** possible target words sampled from M, where **m** is a hyperparameter:
 
 $$
 R = \frac{1}{m} \sum_{i=1}^{m} R_{i}^{\text{baseline}} .
 $$
 
-This reduces reward variance while preserving the same optimal policy.  
+This reduces reward variance, increasing the reward for good guesses (even if not well-fit to the actual target word) and decreasing the reward for lucky guesses.  
 
 **Baseline Reward**  
 For each target word, the baseline reward is defined as the sum of two components:
 - **Normalized Information Gain:** entropy reduction of the vocabulary, scaled to [0, 1]   
 - **Correct word bonus:** $+0.1$ if the correct target word is guessed  
-
-**Why Reward Averaging Does Not Change the Optimal Policy**  
-The optimal policy in RL is defined as the one that maximizes expected discounted returns:
-
-$$
-\pi^* \;=\; \arg \max_{\pi} \; \mathbb{E}_{w \sim \mathcal{W}} \Bigg[ 
-   \sum_{t=1}^{T} \gamma^t \, r_t^{(w)} 
-\Bigg],
-$$
-
-where the expectation is over target words $w \in \mathcal{W}$.  
-
-
-
-### Why Reward Averaging Does Not Change the Optimal Policy
-
-The optimal policy in RL maximizes expected discounted returns:
-$$
-\pi^* \;=\; \arg\max_{\pi}\; \mathbb{E}_{w\sim\mathcal{W}}
-\Bigg[ \sum_{t=1}^{T} \gamma^{t}\, r_t^{(w)} \Bigg],
-$$
-where the expectation is over target words \(w \in \mathcal{W}\) and, in our setting, the posterior is **uniform**:
-\(\Pr(W=w)=1/M\) for all \(w\in\mathcal{W}\).
-
-**Claim.** If at a state \(s\) we estimate the objective by sampling \(m\) words from \(\mathcal{W}\) uniformly (with or without replacement) and averaging their returns, the estimator is **unbiased**, so the **optimal policy is unchanged**.
-
-**Proof.** Let
-$$
-G_\pi(w) := \sum_{t=1}^{T} \gamma^{t}\, r_t^{(w)}, \qquad
-J(\pi) := \mathbb{E}_{W}\!\left[G_\pi(W)\right]
-= \frac{1}{M}\sum_{w\in\mathcal{W}} G_\pi(w).
-$$
-
-Draw a (multi)set $S$ of size $m$ by sampling words uniformly from $\mathcal{W}$, and define the sample mean
-$$
-\widehat{J}_m(\pi) := \frac{1}{m}\sum_{w\in S} G_\pi(w).
-$$
-
-Write $C(u)$ for the number of times word $u$ appears in $S$. Then
-$$
-\widehat{J}_m(\pi)=\frac{1}{m}\sum_{u\in\mathcal{W}} C(u)\,G_\pi(u),
-\qquad
-\mathbb{E}[C(u)] = \frac{m}{M},
-$$
-(where $\mathbb{E}[C(u)]=m/M$ holds for sampling with replacement, and also without replacement by symmetry of simple random sampling). Therefore,
-$$
-\mathbb{E}\!\left[\widehat{J}_m(\pi)\right]
-= \frac{1}{m}\sum_{u} \mathbb{E}[C(u)]\,G_\pi(u)
-= \frac{1}{m}\sum_{u} \frac{m}{M}\,G_\pi(u)
-= \frac{1}{M}\sum_{u} G_\pi(u)
-= J(\pi).
-$$
-
-Hence $\widehat{J}_m(\pi)$ is an unbiased estimator of $J(\pi)$. Maximizing $\mathbb{E}[\widehat{J}_m(\pi)]$ is equivalent to maximizing $J(\pi)$; the argmax over policies is the same. Increasing $m$ reduces variance but does not change the optimum. $\square$
-
-
-where m_i are sample from M (without replacement if m >= |M| and with replacement is m <= |M|).
-
-
-
-
-
-
-
-
-
-
-
-
-For example such as choosing a given word when it is the only possible target, or not 
 
 
 
@@ -210,6 +140,7 @@ For example such as choosing a given word when it is the only possible target, o
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
 My Contacts: LinkedIn(link)  |  Email: rylieweaver9@gmail.com  |  [GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
