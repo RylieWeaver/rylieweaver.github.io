@@ -117,10 +117,12 @@ Some actions in Wordle are clearly optimal or suboptimal given the current state
 
 However, if we only constrain the action space with no other changes, the model does not get to experience the negative impacts of those choosing suboptimal actions, depriving it of valuable gradient signals. To address this, we add a KL-divergence loss term (called KL-Guide loss) between the model's raw policy and the constrained policy (a masked, clamped, and renormalized version of the raw policy). This ensures WordleBot’s parameters still receive a learning signal aligned with the inductive biases that we have chosen. In fact, this learning signal is especially rich because it can give feedback on many output probabilities at once, as opposed to experiential learning that only gives feedback on the chosen action. For example, if there is only one possible target word, the KL-Guide loss gives a gradient signal to ALL 12,972 probabilities (namely increase 1 probability and decrease the 12,971 others).  
 
+<div style="font-size:130%">
 $$
 \mathcal{L}_{\text{KL-Guide}}
-= D_{\text{KL}}\!\left(\pi_{\theta} \;\|\; \pi_{\theta, \text{constraints}}\right)
+= D_{\text{KL}}\!\left(\pi_{\theta} \;\|\; \pi_{\theta,\text{constraints}}\right)
 $$
+</div>
 
 
 ### Action-State Attention
@@ -166,6 +168,7 @@ For each target word, the baseline reward is defined as the sum of two component
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
 My Contacts: [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | rylieweaver9@gmail.com | [GitHub](https://github.com/RylieWeaver)
+
 
 
 
