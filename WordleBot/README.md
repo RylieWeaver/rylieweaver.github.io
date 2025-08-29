@@ -81,7 +81,7 @@ This 11-feature representation compresses the state size while keeping all the s
 Below is a Wordle game and its alphabet state after each of the three guesses in the game. As a visual aid, squares indicating number of occurrences are white, known occurrence locations are green, and known non-occurrence locations are grey. Note that these colors are a visual aid, not necessarily the visual feedback from the game (a known occurrence position usually results from a green letter, but not always!):
 
 <p align="center">
-  <img src="images/game_peril.png" alt="Wordle game" width="300"/>
+  <img src="images/game_peril.png" alt="Wordle game" width="400"/>
 </p>
 
 <p align="center">
@@ -100,7 +100,7 @@ Below is a Wordle game and its alphabet state after each of the three guesses in
 Below is the representation for the word "TRACE":
 
 <p align="center">
-  <img src="images/trace_action.png" alt="TRACE Representation" width="300"/>
+  <img src="images/trace_action.png" alt="TRACE Representation" width="30%"/>
 </p>
 
 
@@ -158,6 +158,7 @@ For each target word, the baseline reward is defined as the sum of two component
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
 My Contacts: [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | rylieweaver9@gmail.com | [GitHub](https://github.com/RylieWeaver)
+
 
 
 
