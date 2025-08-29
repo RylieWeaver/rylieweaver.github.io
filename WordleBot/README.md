@@ -100,11 +100,11 @@ Below is a Wordle game and its alphabet state after each of the three guesses in
 Below are the representations for the word TRACE, LIONS, and MILLY:
 
 <p align="center">
-  <img src="images/trace_action.png" alt="TRACE Representation" width="15%"/>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="images/lions_action.png" alt="LIONS Representation" width="15%"/>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <img src="images/milly_action.png" alt="MILLY Representation" width="15%"/>
+  <img src="images/trace_action.png" alt="TRACE Representation" width="20%"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="images/lions_action.png" alt="LIONS Representation" width="20%"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="images/milly_action.png" alt="MILLY Representation" width="20%"/>
 </p>
 
 
@@ -162,6 +162,7 @@ For each target word, the baseline reward is defined as the sum of two component
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
 My Contacts: [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | rylieweaver9@gmail.com | [GitHub](https://github.com/RylieWeaver)
+
 
 
 
