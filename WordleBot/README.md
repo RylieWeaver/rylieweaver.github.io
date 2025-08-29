@@ -97,12 +97,12 @@ Below is a Wordle game and its alphabet state after each of the three guesses in
 - Each action corresponds to a guessing a 5-letter word.  
 - The concatenation of five one-hot vectors, one for each position (26 possible letters × 5 positions) represents the actions.
 
-Below is the representation for the word "TRACE":
+Below are the representations for the word TRACE, LIONS, and MILLY:
 
 <p align="center">
-  <img src="images/trace_action.png" alt="TRACE Representation" width="15%" style="margin: 0 15px;"/>
-  <img src="images/lions_action.png" alt="LIONS Representation" width="15%" style="margin: 0 15px;"/>
-  <img src="images/milly_action.png" alt="MILLY Representation" width="15%" style="margin: 0 15px;"/>
+  <img src="images/trace_action.png" alt="TRACE Representation" width="15%" style="margin: 0 50px;"/>
+  <img src="images/lions_action.png" alt="LIONS Representation" width="15%" style="margin: 0 50px;"/>
+  <img src="images/milly_action.png" alt="MILLY Representation" width="15%" style="margin: 0 50px;"/>
 </p>
 
 
@@ -160,6 +160,7 @@ For each target word, the baseline reward is defined as the sum of two component
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
 My Contacts: [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | rylieweaver9@gmail.com | [GitHub](https://github.com/RylieWeaver)
+
 
 
 
