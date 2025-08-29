@@ -66,16 +66,19 @@ In Reinforcement Learning, a model takes in an input state, produces an action, 
 
 The state that is given WordleBot is the concatenation of the known information (alphabet state) and guess number (guess state). 
 #### 1. Alphabet State (size 286 = 26 × 11)  
-- Each of the 26 letters in the English alphabet is represented with 11 features:  
+- Each of the 26 letters in the English alphabet is represented with 11 features:
+  - 1 for the minimum number of known occurrences of the letter  
   - 5 for positions where the letter is known to occur  
   - 5 for positions where the letter is known to not occur  
-  - 1 for the minimum number of known occurrences of the letter
-- Initialized as all zeros (no known information)  
+- Initialized as all zeros (no known information)
 
-#### 2. Guess State (size 6)  
-- A one-hot vector representing the current guess number (1-6), which tells WordleBot how far along in the game it is.
+Note that many people would encode 15 features per letter (5 positions x 3 colors: green, yellow, grey). However, this state representation has significant crossover information that I would rather have compressed. A couple examples are:  
+- Grey implies "letter nowhere," regardless of the location it's observed  
+- Both yellow and grey at a location imply "letter not here"  
+- Green implies both "letter here" and "all other letters not here"
+This 11-feature representation compresses the state size while keeping all the same information.  
 
-Below is a Wordle game and its alphabet state after each of the three guesses in the game:
+Below is a Wordle game and its alphabet state after each of the three guesses in the game. As a visual aid, squares indicating number of occurrences are white, known occurrence locations are green, and known non-occurrence locations are grey. Note that these colors are a visual aid, not necessarily the visual feedback from the game (a known occurrence position usually results from a green letter, but not always!):
 
 <p align="center">
   <img src="images/game_peril.png" alt="Wordle game" width="300"/>
@@ -86,17 +89,20 @@ Below is a Wordle game and its alphabet state after each of the three guesses in
   <img src="images/peril_state2.png" alt="Alphabet State 2" width="30%"/>
   <img src="images/peril_state3.png" alt="Alphabet State 3" width="30%"/>
 </p>
- 
+
+#### 2. Guess State (size 6)  
+- A one-hot vector representing the current guess number (1-6), which tells WordleBot how far along in the game it is.
+
 #### 3. Action (size 130 = 26 × 5)  
 - Each action corresponds to a guessing a 5-letter word.  
-- The concatenation of five one-hot vectors, one for each position (26 possible letters × 5 positions).  
+- The concatenation of five one-hot vectors, one for each position (26 possible letters × 5 positions) represents the actions.
 
-Note that many people would encode 15 features per letter (5 positions x 3 colors: green, yellow, grey). However, this state representation has significant crossover information that I would rather have compressed. A couple examples are:  
-- Grey implies "letter nowhere," regardless of the location it's observed  
-- Both yellow and grey at a location imply "letter not here"  
-- Green implies both "letter here" and "all other letters not here"  
+Below is the representation for the word "TRACE":
 
-This 11-feature representation compresses the state size while keeping all the same information.  
+<p align="center">
+  <img src="images/trace_action.png" alt="TRACE Representation" width="300"/>
+</p>
+
 
 ### Inductive Bias  
 
@@ -152,6 +158,7 @@ For each target word, the baseline reward is defined as the sum of two component
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
 My Contacts: [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | rylieweaver9@gmail.com | [GitHub](https://github.com/RylieWeaver)
+
 
 
 
