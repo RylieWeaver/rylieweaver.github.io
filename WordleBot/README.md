@@ -121,7 +121,7 @@ By utilizing embeddings of the state AND actions, rather than just the state, Wo
 
 ### Reward Function
 
-For any given state, there is a set of \(\text{M} \subseteq \text{V}\) possible target words where V is the total vocabulary of 2315. WordleBot is given the average reward over **m** possible target words sampled from M, where **m** is a hyperparameter:
+For any given state, there is a set of $$ \text{M} \subseteq \text{V} $$ possible target words where V is the total vocabulary of 2315. WordleBot is given the average reward over **m** possible target words sampled from M, where **m** is a hyperparameter:
 
 $$
 R = \frac{1}{m} \sum_{i=1}^{m} R_{i}^{\text{baseline}} .
@@ -132,29 +132,13 @@ This reduces reward variance, increasing the reward for good guesses (even if no
 **Baseline Reward**  
 For each target word, the baseline reward is defined as the sum of two components:
 - **Normalized Information Gain:** entropy reduction of the vocabulary, scaled to [0, 1]   
-- **Correct word bonus:** $+0.1$ if the correct target word is guessed  
-
+- **Correct word bonus:** $+0.1$ if the correct target word is guessed
 
 
 
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
-My Contacts: LinkedIn(link)  |  Email: rylieweaver9@gmail.com  |  [GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+My Contacts: [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | rylieweaver9@gmail.com | [GitHub](https://github.com/RylieWeaver)
 
 
 
