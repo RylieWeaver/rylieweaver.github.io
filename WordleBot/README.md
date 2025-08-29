@@ -39,7 +39,7 @@ Wordle is a game run by the New York Times where the goal is to guess an unknown
   <img src="images/game_peril.png" alt="Wordle game" width="350"/>
 </p>
 
-Besides small changes made since its release, Wordle has a total vocabulary of 12,972 words, of which 2,315 are possible target words. With those vocab sizes and 6 possible guesses, the number of unique Wordle games, defined as different target word or different guesses, is:
+Besides small changes made since its release, Wordle has a total vocabulary of 12,972 words, of which 2,315 are possible target words. With those vocab sizes and 6 possible guesses, the number of unique Wordle games, defined as different target word or different sequences of guesses, is:
 $$12972^6 \times 2315 \approx 10^{24}$$
 (quite large).  
 
@@ -56,7 +56,7 @@ There are quite a few different attempts of others for Wordle, including the use
 
 ### Reinforcement Learning
 
-In Reinforcement Learning, a model takes in an input state, produces an action, and then receives feedback on that action in the form of a reward/penalty. Despite its simple core, RL has made a large impact on many machine learning applications, including modern LLMs (large language models) like ChatGPT. In particular, RL has been used to develop world-class or even superhuman level performance at varios games, including Chess, Go, DOTA, and Starcraft. Deep Reinforcement Learning uses deep neural networks as the core model architecture, and particularly shines over simpler methods (such as heuristics) when the action space and/or game length is exceedingly large. I was inspired by the success of these models and wanted to better understand how they work, so decided to make a bot on the much simpler game of Wordle.  
+In Reinforcement Learning, a model takes in an input state, produces an action, and then receives feedback on that action in the form of a reward/penalty. Despite its simple core, RL has made a large impact on many machine learning applications, including modern LLMs (large language models) like ChatGPT. In particular, RL has been used to develop world-class or even superhuman level performance at various games, including Chess, Go, DOTA, and Starcraft. Deep Reinforcement Learning uses deep neural networks as the core model architecture, and particularly shines over simpler methods (such as heuristics) when the action space and/or game length is exceedingly large. I was inspired by the success of these models and wanted to better understand how they work, so decided to make a bot on the much simpler game of Wordle.  
 
 ---
 
@@ -94,7 +94,7 @@ Below is a Wordle game and its alphabet state after each of the three guesses in
 - A one-hot vector representing the current guess number (1-6), which tells WordleBot how far along in the game it is.
 
 #### 3. Action (size 130 = 26 × 5)  
-- Each action corresponds to a guessing a 5-letter word.  
+- Each action corresponds to guessing a 5-letter word.  
 - The concatenation of five one-hot vectors, one for each position (26 possible letters × 5 positions) represents the actions.
 
 Below are the representations for the word TRACE, LIONS, and MILLY:
@@ -110,12 +110,12 @@ Below are the representations for the word TRACE, LIONS, and MILLY:
 
 ### Inductive Bias  
 
-Some actions in Wordle are clearly optimal or suboptimal given the current state, which can be succinctly stated as rules on the action space (a.k.a inductive biases). WordleBot is constrained in its training and evaluation to follow three inductive biases in its training and evaluation:  
+Some actions in Wordle are clearly optimal or suboptimal given the current state, which can be succinctly stated as rules on the action space (a.k.a. inductive biases). WordleBot is constrained in its training and evaluation to follow three inductive biases in its training and evaluation:  
 - **No repeats:** Never guess the same word twice.  
 - **Single target word:** If there is only one possible target word, guess that word.  
 - **Final guess:** If on the last guess, choose from the remaining possible target words.  
 
-However, if we only constrain the action space with no other changes, the model does not get to experience the negative impacts of those choosing suboptimal actions, depriving it of a valuable gradient signal. To address this, we add a KL-divergence loss term (called KL-Guide loss) between the model's raw policy and the constrained policy (a masked, clamped, and renormalized version of the raw policy). This ensures WordleBot’s parameters still receive a learning signal aligned with the inductive biases that we have chosen. In fact, this learning signal is especially rich because it can give feedback on many output probabilites at once, as opposed to experiential learning that only gives feedback on the chosen action. For example, if there is only one possible target word, the KL-Guide loss gives a gradient signal to ALL 12972 probabilities (namely increase 1 probability and decrease the 12971 others).  
+However, if we only constrain the action space with no other changes, the model does not get to experience the negative impacts of those choosing suboptimal actions, depriving it of valuable gradient signals. To address this, we add a KL-divergence loss term (called KL-Guide loss) between the model's raw policy and the constrained policy (a masked, clamped, and renormalized version of the raw policy). This ensures WordleBot’s parameters still receive a learning signal aligned with the inductive biases that we have chosen. In fact, this learning signal is especially rich because it can give feedback on many output probabilities at once, as opposed to experiential learning that only gives feedback on the chosen action. For example, if there is only one possible target word, the KL-Guide loss gives a gradient signal to ALL 12,972 probabilities (namely increase 1 probability and decrease the 12,971 others).  
 
 $$
 \mathcal{L}_{\text{KL-Guide}}
@@ -133,7 +133,7 @@ $$
 
 Where:
 - $A$ are the action representations  
-- $S$ is the action representation  
+- $S$ is the state representation  
 - $d$ is the embedding dimension  
 - $T$ is the temperature parameter  
 
@@ -144,7 +144,7 @@ By utilizing embeddings of the state AND actions, rather than just the state, Wo
 
 ### Reward Function
 
-For any given state, there is a set of $$ \text{M} \subseteq \text{V} $$ possible target words where V is the total vocabulary of 2315. WordleBot is given the average reward over **m** possible target words sampled from M, where **m** is a hyperparameter:
+For any given state, there is a set M ⊆ V of possible target words, where |V| = 2,315. WordleBot is given the average reward over **m** possible target words sampled from M, where **m** is a hyperparameter:
 
 $$
 R = \frac{1}{m} \sum_{i=1}^{m} R_{i}^{\text{baseline}} .
@@ -154,7 +154,7 @@ This reduces reward variance, increasing the reward for good guesses (even if no
 
 For each target word, the baseline reward is defined as the sum of two components:
 - **Normalized Information Gain:** entropy reduction of the vocabulary, scaled to [0, 1]   
-- **Correct word bonus:** $+0.1$ if the correct target word is guessed
+- **Correct word bonus:** +0.1 if the correct target word is guessed
 
 
 ### Other Notes
@@ -166,6 +166,7 @@ For each target word, the baseline reward is defined as the sum of two component
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
 My Contacts: [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | rylieweaver9@gmail.com | [GitHub](https://github.com/RylieWeaver)
+
 
 
 
