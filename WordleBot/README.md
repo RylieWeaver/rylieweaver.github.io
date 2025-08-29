@@ -122,12 +122,6 @@ $$
 = D_{\text{KL}}\!\left(\pi_{\theta} \;\|\; \pi_{\theta, \text{constraints}}\right)
 $$
 
-<div style="font-size:200%">
-$$
-\mathcal{L}_{\text{KL-Guide}} = D_{\text{KL}}\!\left(\pi_{\theta} \;\|\; \pi_{\theta, \text{constraints}}\right)
-$$
-</div>
-
 
 ### Action-State Attention
 
@@ -172,6 +166,7 @@ For each target word, the baseline reward is defined as the sum of two component
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
 My Contacts: [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | rylieweaver9@gmail.com | [GitHub](https://github.com/RylieWeaver)
+
 
 
 
