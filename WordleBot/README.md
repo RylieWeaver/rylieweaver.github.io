@@ -173,9 +173,8 @@ For each target word, the baseline reward is defined as the sum of two component
 
 
 
-[WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
+[LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | rylieweaver9@gmail.com | [GitHub](https://github.com/RylieWeaver)  |  [Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  |  [WordleBot Source Code](https://github.com/RylieWeaver/WordleBot)  
 
-My Contacts: [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | rylieweaver9@gmail.com | [GitHub](https://github.com/RylieWeaver)
 
 
 
