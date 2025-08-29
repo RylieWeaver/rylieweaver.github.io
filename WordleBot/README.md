@@ -145,7 +145,7 @@ Where:
 
 Note that when $T = 1$, this is exactly the standard formula for attention weights in Transformers.  
 
-By utilizing embeddings of the state AND actions, rather than just the state, WordleBot is able to transfer information between different actions. For example, if 'FIGHT' is a good guess, then 'MIGHT' probably is too, and embedding the actions allows us to use that via shared weights. Most RL systems do not do this, instead just embedding the state and projecting to an output dimension the size of the action space. As mentioned in the related existing approaches, [Andrew Ho](https://andrewkho.github.io/wordle-solver/) used a similar mechanism for his deep learning Wordle agent, however that model used a direct dot product without dividing by the square root of the dimensionality.  
+By utilizing embeddings of the state AND actions, rather than just the state, WordleBot is able to transfer information between different actions. For example, if 'FIGHT' is a good guess, then 'MIGHT' probably is too. Most RL systems do not do this, instead embedding the state and projecting to an output dimension the size of the action space. As mentioned in the related existing approaches, [Andrew Ho](https://andrewkho.github.io/wordle-solver/) used a similar mechanism for his deep learning Wordle agent, however that model used a direct dot product without dividing by the square root of the dimensionality.  
 
 
 ### Reward Function
@@ -162,17 +162,18 @@ $$
 This reduces reward variance, increasing the reward for good guesses (even if not well-fit to the actual target word) and decreasing the reward for lucky guesses.  
 
 For each target word, the baseline reward is defined as the sum of two components:
-- **Normalized Information Gain:** entropy reduction of the vocabulary, scaled to [0, 1]   
-- **Correct word bonus:** +0.1 if the correct target word is guessed
+- **Information gain** via reduction of the possible target words, scaled to [0, 1]   
+- **Correct word bonus** of 0.1 if the correct target word is guessed
 
 
 ### Other Notes
 - Normalizing advantages per group helped a lot to improve on harder words.
-- I do have using a replay loader for harder words as an option for training, however the latest iteration of WordleBot does not use it because (1) I didn't see a big difference and (2) Even if a word is easier, I care about getting it as fast as possible, and the replay loader biases from this.
+- Using a replay loader is an option in WordleBot's training. However the latest iteration of WordleBot does not use it because (1) I didn't see a big difference in performance and (2) Even if a word is easier, I care about getting it as fast as possible, and the replay loader biases training away from this.
 
 
 
 [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | [Email](mailto:rylieweaver9@gmail.com) | [GitHub](https://github.com/RylieWeaver)  |  [Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  |  [WordleBot Source Code](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
