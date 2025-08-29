@@ -1,11 +1,13 @@
 # WordleBot
 
+<div style="font-size:150%">
 I've built an AI bot to play **Wordle** using Deep Reinforcement Learning! 
 
 WordleBot Stats:  
 - **100% Accuracy**  
 - **3.53 Avg Guesses**  
 - **~30M Games Played**
+</div>
 
 [Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  
 
@@ -117,7 +119,7 @@ Some actions in Wordle are clearly optimal or suboptimal given the current state
 
 However, if we only constrain the action space with no other changes, the model does not get to experience the negative impacts of those choosing suboptimal actions, depriving it of valuable gradient signals. To address this, we add a KL-divergence loss term (called KL-Guide loss) between the model's raw policy and the constrained policy (a masked, clamped, and renormalized version of the raw policy). This ensures WordleBot’s parameters still receive a learning signal aligned with the inductive biases that we have chosen. In fact, this learning signal is especially rich because it can give feedback on many output probabilities at once, as opposed to experiential learning that only gives feedback on the chosen action. For example, if there is only one possible target word, the KL-Guide loss gives a gradient signal to ALL 12,972 probabilities (namely increase 1 probability and decrease the 12,971 others).  
 
-<div style="font-size:130%">
+<div style="font-size:200%">
 $$
 \mathcal{L}_{\text{KL-Guide}}
 = D_{\text{KL}}\!\left(\pi_{\theta} \;\|\; \pi_{\theta,\text{constraints}}\right)
@@ -129,9 +131,12 @@ $$
 
 WordleBot computes its probability distribution as:  
 
+<div style="font-size:200%">
 $$
 P = \text{softmax}_T \!\left( \frac{\phi_1(A) \, \phi_2(S)}{\sqrt{d}} \right)
 $$
+</div>
+
 
 Where:
 - $A$ are the action representations  
@@ -148,9 +153,12 @@ By utilizing embeddings of the state AND actions, rather than just the state, Wo
 
 For any given state, there is a set M ⊆ V of possible target words, where V is the whole target vocabulary. WordleBot is given the average reward over **m** possible target words sampled from M, where **m** is a hyperparameter:
 
+<div style="font-size:200%">
 $$
-R = \frac{1}{m} \sum_{i=1}^{m} R_{i}^{\text{baseline}} .
+R = \frac{1}{m} \sum_{i=1}^{m} R_{i}^{\text{baseline}}
 $$
+</div>
+
 
 This reduces reward variance, increasing the reward for good guesses (even if not well-fit to the actual target word) and decreasing the reward for lucky guesses.  
 
@@ -168,6 +176,7 @@ For each target word, the baseline reward is defined as the sum of two component
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
 My Contacts: [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | rylieweaver9@gmail.com | [GitHub](https://github.com/RylieWeaver)
+
 
 
 
