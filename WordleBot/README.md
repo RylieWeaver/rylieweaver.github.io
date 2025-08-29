@@ -35,7 +35,7 @@ Wordle is a game run by the New York Times where the goal is to guess an unknown
 - **Yellow**: in the target word but not at that location, and the total number of greens/yellows does not exceed the count in the target word (characters on the left are given priority to be marked yellow).
 - **Grey**: not in the target word or otherwise did not fit green/yellow requirements
 
-<p align="left">
+<p align="center">
   <img src="images/game_peril.png" alt="Wordle game" width="300"/>
 </p>
 
@@ -70,9 +70,22 @@ The state that is given WordleBot is the concatenation of the known information 
   - 5 for positions where the letter is known to occur  
   - 5 for positions where the letter is known to not occur  
   - 1 for the minimum number of known occurrences of the letter
+- Initialized as all zeros (no known information)  
 
 #### 2. Guess State (size 6)  
 - A one-hot vector representing the current guess number (1-6), which tells WordleBot how far along in the game it is.
+
+Below is a Wordle game and its alphabet state after each of the three guesses in the game:
+
+<p align="center">
+  <img src="images/game_peril.png" alt="Wordle game" width="300"/>
+</p>
+
+<p align="center">
+  <img src="images/peril_state1.png" alt="Alphabet State 1" width="30%"/>
+  <img src="images/peril_state2.png" alt="Alphabet State 2" width="30%"/>
+  <img src="images/peril_state3.png" alt="Alphabet State 3" width="30%"/>
+</p>
  
 #### 3. Action (size 130 = 26 × 5)  
 - Each action corresponds to a guessing a 5-letter word.  
@@ -139,6 +152,7 @@ For each target word, the baseline reward is defined as the sum of two component
 [WordleBot GitHub Repo](https://github.com/RylieWeaver/WordleBot)  
 
 My Contacts: [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | rylieweaver9@gmail.com | [GitHub](https://github.com/RylieWeaver)
+
 
 
 
