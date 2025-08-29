@@ -163,16 +163,17 @@ This reduces reward variance, increasing the reward for good guesses (even if no
 
 For each target word, the baseline reward is defined as the sum of two components:
 - **Information gain** via reduction of the possible target words, scaled to [0, 1]   
-- **Correct word bonus** of 0.1 if the correct target word is guessed
+- **Correct word bonus** of 0.1 if the target word is guessed
 
 
 ### Other Notes
 - Normalizing advantages per group helped a lot to improve on harder words.
-- Using a replay loader is an option in WordleBot's training. However the latest iteration of WordleBot does not use it because (1) I didn't see a big difference in performance and (2) Even if a word is easier, I care about getting it as fast as possible, and the replay loader biases training away from this.
+- Using a replay loader is an option in WordleBot's training. However the latest iteration of WordleBot does not use it because (1) I didn't see a big difference in performance and (2) guessing words sooner helps my avg number of guesses, whether or not it was a hard word, but a replay loader biases the model to care specifically about the hard words.
 
 
 
 [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | [Email](mailto:rylieweaver9@gmail.com) | [GitHub](https://github.com/RylieWeaver)  |  [Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  |  [WordleBot Source Code](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
