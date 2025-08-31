@@ -154,14 +154,13 @@ For any given state, there is a set M ⊆ V of possible target words, where V is
 
 <div style="font-size:150%">
 $$
-R = \frac{1}{m} \sum_{i=1}^{m} R_{i}^{\text{baseline}}
+R = \frac{1}{m} \sum_{i=1}^{m} R_{i}
 $$
 </div>
 
-
 This reduces reward variance, increasing the reward for good guesses (even if not well-fit to the actual target word) and decreasing the reward for lucky guesses.  
 
-For each target word, the baseline reward is defined as the sum of two components:
+The reward for each individual target word is defined as the sum of two components:
 - **Information gain** via reduction of the possible target words, scaled to [0, 1]   
 - **Correct word bonus** of 0.1 if the target word is guessed
 
@@ -173,6 +172,7 @@ For each target word, the baseline reward is defined as the sum of two component
 
 
 [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | [Email](mailto:rylieweaver9@gmail.com) | [GitHub](https://github.com/RylieWeaver)  |  [Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  |  [WordleBot Source Code](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
