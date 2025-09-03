@@ -75,7 +75,7 @@ The state that is given WordleBot is the concatenation of the known information 
 Note that many people would encode 15 features per letter (5 positions x 3 colors: green, yellow, grey). However, this state representation has significant crossover information that I would rather have compressed. A couple examples are:  
 - Grey implies "letter nowhere," regardless of the location it's observed  
 - Both yellow and grey at a location imply "letter not here"  
-- Green implies both "letter here" and "all other letters not here"
+- Green implies both "letter here" and "all other letters not here"  
 This 11-feature representation compresses the state size while keeping all the same information.  
 
 Below is a Wordle game and its alphabet state after each of the three guesses in the game. As a visual aid, squares indicating number of occurrences are white, known occurrence locations are green, and known non-occurrence locations are grey. Note that these colors are a visual aid, not necessarily the visual feedback from the game (a known occurrence position usually results from a green letter, but not always!):
@@ -214,6 +214,7 @@ The reward for each individual target word is defined as the sum of two componen
 
 
 [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | [Email](mailto:rylieweaver9@gmail.com) | [GitHub](https://github.com/RylieWeaver)  |  [Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  |  [WordleBot Source Code](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
