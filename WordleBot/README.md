@@ -164,7 +164,7 @@ WordleBot computes the action probabilities as:
 
 <div style="font-size:150%">
 $$
-P = \text{softmax}_T \!\left( \frac{\phi_1(S) \, \phi_2(A)}{\sqrt{d}} \right)
+P = \text{softmax}_T \!\left( \frac{\phi_1(S) \, \phi_2(A)^T}{\sqrt{d}} \right)
 $$
 </div>
 
@@ -174,6 +174,8 @@ Where:
 - $A$ are the action representations: shape $$[\lvert V \rvert, 130]$$  
 - $\phi_1$ is a learned function: $$\mathbb{R}^{292} \rightarrow \mathbb{R}^{d}$$
 - $\phi_2$ is a learned function: $$\mathbb{R}^{130} \rightarrow \mathbb{R}^{d}$$
+- $\phi_1(S)$ is the state embedding: shape $$[d]$$
+- $\phi_2(A)$ are the action embeddings: $$[\lvert V \rvert, d]$$ 
 - $T$ is the temperature parameter
 - $P$ is the action probabilities: shape $$[\lvert V \rvert]$$
 
@@ -212,6 +214,7 @@ The reward for each individual target word is defined as the sum of two componen
 
 
 [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | [Email](mailto:rylieweaver9@gmail.com) | [GitHub](https://github.com/RylieWeaver)  |  [Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  |  [WordleBot Source Code](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
