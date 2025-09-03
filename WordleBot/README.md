@@ -113,7 +113,27 @@ Below are the representations for the word TRACE, LIONS, and MILLY:
 Some actions in Wordle are clearly optimal or suboptimal given the current state, which can be succinctly stated as rules on the action space (a.k.a. inductive biases). WordleBot is constrained in its training and evaluation to follow three inductive biases in its training and evaluation:  
 - **No repeats:** Never guess the same word twice.  
 - **2 or fewer target words:** If there are only two of fewer possible target words, guess one of them.  
-- **Final guess:** If on the last guess, choose from the remaining possible target words.  
+- **Final guess:** If on the last guess, choose from the remaining possible target words.
+
+The action space is constrained by setting all disallowed action probabilities to 0 and then renormalizing. Specifically, before each action selection step, we first multiply the raw policy distribution \(\pi_\theta\) by a binary mask, where 1 indicates an allowed action and 0 indicates a disallowed action. The constrained policy is then defined as  
+
+$$
+\pi_{\theta, constraints} \;=\; \frac{\pi_{\theta} \cdot mask} {\sum_{A} \pi_{\theta} \cdot mask}
+$$
+
+Below we show an example game and the corresponding masks for each of its three guesses. For the first guess, no constraints are applied, so the mask is all ones. For the second guess, the **no repeats** constraint is applied, so the probability of guessing "TRACE" is set to zero. For the third guess, only one target word (QUITE) is consistent with the state, so the **2 or fewer target words** constraint applies and all other actions are masked out, leaving only "QUITE" with nonzero probability.
+
+<p align="center">
+  <img src="images/game_quite.png" alt="Wordle game" width="350"/>
+</p>
+
+<p align="center">
+  <img src="images/quite_action_mask_1.png" alt="QUITE mask1" width="20%"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="images/quite_action_mask_2.png" alt="QUITE mask2" width="20%"/>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="images/quite_action_mask_3.png" alt="QUITE mask3" width="20%"/>
+</p>
 
 However, if we only constrain the action space with no other changes, the model does not get to experience the negative impacts of those choosing suboptimal actions, depriving it of valuable gradient signals. To address this, we add a KL-divergence loss term (called KL-Guide loss) between the model's raw policy and the constrained policy (a masked, clamped, and renormalized version of the raw policy). This ensures WordleBot’s parameters still receive a learning signal aligned with the inductive biases that we have chosen. In fact, this learning signal is especially rich because it can give feedback on many output probabilities at once, as opposed to experiential learning that only gives feedback on the chosen action. For example, if there is only one possible target word, the KL-Guide loss gives a gradient signal to ALL 12,972 probabilities (namely increase 1 probability and decrease the 12,971 others).  
 
@@ -172,6 +192,7 @@ The reward for each individual target word is defined as the sum of two componen
 
 
 [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | [Email](mailto:rylieweaver9@gmail.com) | [GitHub](https://github.com/RylieWeaver)  |  [Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  |  [WordleBot Source Code](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
