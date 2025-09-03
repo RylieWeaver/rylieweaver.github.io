@@ -5,7 +5,7 @@ I've built an AI bot to play **Wordle** using Deep Reinforcement Learning!
 WordleBot Stats:  
 - **100% Accuracy**  
 - **3.50 Avg Guesses**  
-- **~30M Games Played**
+- **~44M Games Played**
 
 [Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  
 
@@ -214,6 +214,7 @@ The reward for each individual target word is defined as the sum of two componen
 
 
 [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | [Email](mailto:rylieweaver9@gmail.com) | [GitHub](https://github.com/RylieWeaver)  |  [Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  |  [WordleBot Source Code](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
