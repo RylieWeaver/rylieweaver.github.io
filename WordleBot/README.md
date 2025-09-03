@@ -40,7 +40,7 @@ Wordle is a game run by the New York Times where the goal is to guess an unknown
 </p>
 
 Besides small changes made since its release, Wordle has a total vocabulary of 12,972 words (call this V), of which 2,315 are possible target words (call this T). With those vocab sizes and 6 possible guesses, the number of unique Wordle games, defined as different target word or different sequences of guesses, is:
-$$|V|^6 \times |T| = 12972^6 \times 2315 \approx 10^{24}$$
+$$\lvert V \rvert^6 \times \lvert T \rvert = 12972^6 \times 2315 \approx 10^{24}$$
 (quite large).  
 
 ### Existing Approaches
@@ -170,12 +170,12 @@ $$
 
 Where:
 - $d$ is the embedding dimension and set as a hyperparameter
-- $A$ are the action representations: shape $$[|V|, 130]$$  
+- $A$ are the action representations: shape $$[\lvert V \rvert, 130]$$  
 - $S$ is the state representation: shape $$[292]$$  
 - $\phi_1$ is a learned function: $$\mathbb{R}^{130} \rightarrow \mathbb{R}^{d}$$
 - $\phi_2$ is a learned function: $$\mathbb{R}^{292} \rightarrow \mathbb{R}^{d}$$
 - $T$ is the temperature parameter
-- $P$ is the action probabilities: shape $$[|V|]$$
+- $P$ is the action probabilities: shape $$[\lvert V \rvert]$$
 
 Note that when $T = 1$, this is exactly the standard formula for attention weights in Transformers. In this analogy, the state embedding acts as a query asking "What action is good given state $S$" and the actions act as different keys, with the resulting attention weights indicating how good an action is for a particular state.
 
@@ -205,8 +205,14 @@ The reward for each individual target word is defined as the sum of two componen
 - A KL-Best loss was included in training as well, which penalized the model for diverging from the best model observed so far.
 
 
+### Thanks
+- Zach Fox, for ideas related to WordleBot's architecture/training and the revision of this page.  
+- My girlfriend, who is my daily Wordle buddy :)  
+
+
 
 [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | [Email](mailto:rylieweaver9@gmail.com) | [GitHub](https://github.com/RylieWeaver)  |  [Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  |  [WordleBot Source Code](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
