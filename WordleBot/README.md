@@ -146,7 +146,7 @@ $$
 $$
 </div>
 
-Note that to avoid explosions, we add a small \( \epsilon \) value and renormalize the probabilities fed into the KL-Guide loss. This is especially important for the constrained probabilities, which contain zero values.  
+Note that to avoid explosions, we add a small $\epsilon$ value and renormalize the probabilities fed into the KL-Guide loss. This is especially important for the constrained probabilities, which contain zero values.  
 
 The KL-Guide loss is distinct from trust region policy optimization (TRPO). TRPO is a standard RL training procedure that includes a regularizing KL term (denoted KL-Reg) between the current policy and a reference policy from a previous checkpoint:  
 
@@ -214,6 +214,7 @@ The reward for each individual target word is defined as the sum of two componen
 
 
 [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | [Email](mailto:rylieweaver9@gmail.com) | [GitHub](https://github.com/RylieWeaver)  |  [Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  |  [WordleBot Source Code](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
