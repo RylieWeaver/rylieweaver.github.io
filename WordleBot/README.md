@@ -170,12 +170,12 @@ $$
 
 Where:
 - $d$ is the embedding dimension and set as a hyperparameter
-- $A$ are the action representations: shape [|V|, 130]  
-- $S$ is the state representation: shape [292]  
-- $\phi_1$ is a learned function: \( \mathbb{R}^{130} \rightarrow \mathbb{R}^{d} \)
-- $\phi_2$ is a learned function: \( \mathbb{R}^{292} \rightarrow \mathbb{R}^{d} \)
+- $A$ are the action representations: shape $$[|V|, 130]$$  
+- $S$ is the state representation: shape $$[292]$$  
+- $\phi_1$ is a learned function: $$\mathbb{R}^{130} \rightarrow \mathbb{R}^{d}$$
+- $\phi_2$ is a learned function: $$\mathbb{R}^{292} \rightarrow \mathbb{R}^{d}$$
 - $T$ is the temperature parameter
-- $P$ is the action probabilities: shape [V]
+- $P$ is the action probabilities: shape $$[|V|]$$
 
 Note that when $T = 1$, this is exactly the standard formula for attention weights in Transformers. In this analogy, the state embedding acts as a query asking "What action is good given state $S$" and the actions act as different keys, with the resulting attention weights indicating how good an action is for a particular state.
 
@@ -207,6 +207,7 @@ The reward for each individual target word is defined as the sum of two componen
 
 
 [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | [Email](mailto:rylieweaver9@gmail.com) | [GitHub](https://github.com/RylieWeaver)  |  [Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  |  [WordleBot Source Code](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
