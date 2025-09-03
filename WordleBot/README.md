@@ -179,7 +179,7 @@ Where:
 - $T$ is the temperature parameter
 - $P$ is the action probabilities: shape $$[\lvert V \rvert]$$
 
-Note that when $T = 1$, this is exactly the standard formula for attention weights in Transformers. In this analogy, the state embedding acts as a query asking "What action is good given state $S$" and the actions act as different keys, with the resulting attention weights indicating how good an action is for a particular state.
+Note that when $T = 1$, this is exactly the standard formula for attention weights in Transformers, replacing $Q$ with $\phi_1(S)$ and $K^T$ with $$\phi_2(A)^T$$. Analogously, the state embedding acts as a query asking "What action is good given state $S$?" and the action embeddings act as keys, with the resultant attention weights indicating how good an action is for a particular state.  
 
 By utilizing embeddings of the state AND actions, rather than just the state, WordleBot is able to transfer information between different actions. For example, if 'FIGHT' is a good guess, then 'MIGHT' probably is too. Most RL systems do not do this, instead embedding the state and projecting to an output dimension the size of the action space. As mentioned in the related existing approaches, [Andrew Ho](https://andrewkho.github.io/wordle-solver/) used a similar mechanism for his deep learning Wordle agent, however that model used a direct dot product without dividing by the square root of the dimensionality.  
 
@@ -214,6 +214,7 @@ The reward for each individual target word is defined as the sum of two componen
 
 
 [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | [Email](mailto:rylieweaver9@gmail.com) | [GitHub](https://github.com/RylieWeaver)  |  [Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  |  [WordleBot Source Code](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
