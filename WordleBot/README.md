@@ -202,11 +202,12 @@ The reward for each individual target word is defined as the sum of two componen
 ### Other Notes
 - Normalizing advantages per group helped a lot to improve on harder words.
 - Using a replay loader is an option in WordleBot's training. However the latest iteration of WordleBot does not use it because (1) I didn't see a big difference in performance and (2) guessing words sooner helps my avg number of guesses, whether or not it was a hard word, but a replay loader biases the model to care specifically about the hard words.
-- A KL-Best loss was included in training as well, which penalized the model for diverging from the best model observed so far up until that point in training.
+- A KL-Best loss was included in training as well, which penalized the model for diverging from the best model observed so far.
 
 
 
 [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | [Email](mailto:rylieweaver9@gmail.com) | [GitHub](https://github.com/RylieWeaver)  |  [Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  |  [WordleBot Source Code](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
