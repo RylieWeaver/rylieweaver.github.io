@@ -137,7 +137,7 @@ Below we show an example game and the corresponding masks for each of its three 
   <img src="images/quite_action_mask_3.png" alt="QUITE mask3" width="20%"/>
 </p>
 
-However, when we constrain the action space, the model doesn't directly learn through experience to align with the inductive biases, which may deprive the model of valuable gradient signals that are useful for other parts of the game. For example, taking the game above as an example, the never directly learns that "QUITE" is the superior third guess because it is never allowed to choose another guess to compare with. To address this, we add a KL-divergence loss term (called KL-Guide loss) between the model's raw policy \(\pi_{\theta}\) and the constrained policy \(\pi_{\theta, constraints}\). The KL-Guide loss term discourages actions that are masked out without needing to experience them. In fact, the KL-Guide loss provides a much richer learning signal than learning from experience because it can give feedback on many output probabilities at once. For example, in there is only one possible target word, the KL-Guide loss gives a gradient signal to ALL 12,972 probabilities (namely increase 1 probability and decrease the 12,971 others). On the other hand, experiential learning only gives a gradient signal to the single probability whose corresponding action was chosen. Overall, the KL-Guide Loss provides an extremely rich gradient signal to align WordleBot's action probabilities with the inductive biases without needing to experience the masked out actions.  
+However, when we constrain the action space, the model doesn't directly learn through experience to align with the inductive biases, which may deprive the model of valuable gradient signals that are useful for other parts of the game. For example, taking the game above as an example, the never directly learns that "QUITE" is the superior third guess because it is never allowed to choose another guess to compare with. To address this, we add a KL-divergence loss term (called KL-Guide loss) between the model's raw policy $$\pi_{\theta}$$ and the constrained policy $$\pi_{\theta, constraints}$$. The KL-Guide loss term discourages actions that are masked out without needing to experience them. In fact, the KL-Guide loss provides a much richer learning signal than learning from experience because it can give feedback on many output probabilities at once. For example, in there is only one possible target word, the KL-Guide loss gives a gradient signal to ALL 12,972 probabilities (namely increase 1 probability and decrease the 12,971 others). On the other hand, experiential learning only gives a gradient signal to the single probability whose corresponding action was chosen. Overall, the KL-Guide Loss provides an extremely rich gradient signal to align WordleBot's action probabilities with the inductive biases without needing to experience the masked out actions.  
 
 <div style="font-size:150%">
 $$
@@ -207,6 +207,7 @@ The reward for each individual target word is defined as the sum of two componen
 
 
 [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | [Email](mailto:rylieweaver9@gmail.com) | [GitHub](https://github.com/RylieWeaver)  |  [Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  |  [WordleBot Source Code](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
