@@ -39,8 +39,8 @@ Wordle is a game run by the New York Times where the goal is to guess an unknown
   <img src="images/game_peril.png" alt="Wordle game" width="350"/>
 </p>
 
-Besides small changes made since its release, Wordle has a total vocabulary of 12,972 words, of which 2,315 are possible target words. With those vocab sizes and 6 possible guesses, the number of unique Wordle games, defined as different target word or different sequences of guesses, is:
-$$12972^6 \times 2315 \approx 10^{24}$$
+Besides small changes made since its release, Wordle has a total vocabulary of 12,972 words (call this V), of which 2,315 are possible target words (call this T). With those vocab sizes and 6 possible guesses, the number of unique Wordle games, defined as different target word or different sequences of guesses, is:
+$$|V|^6 \times |T| = 12972^6 \times 2315 \approx 10^{24}$$
 (quite large).  
 
 ### Existing Approaches
@@ -118,8 +118,10 @@ Some actions in Wordle are clearly optimal or suboptimal given the current state
 The action space is constrained by setting all disallowed action probabilities to 0 and then renormalizing. Specifically, before each action selection step, we first multiply the raw policy distribution \(\pi_\theta\) by a binary mask, where 1 indicates an allowed action and 0 indicates a disallowed action. The constrained policy is then defined as  
 
 $$
-\pi_{\theta, constraints} \;=\; \frac{\pi_{\theta} \cdot mask} {\sum_{A} \pi_{\theta} \cdot mask}
+\pi_{\theta, constraints} \quad = \quad \frac{\pi_{\theta} \cdot mask} {\sum_{A} \pi_{\theta} \cdot mask}
 $$
+
+Where A is the action space.  
 
 Below we show an example game and the corresponding masks for each of its three guesses. For the first guess, no constraints are applied, so the mask is all ones. For the second guess, the **no repeats** constraint is applied, so the probability of guessing "TRACE" is set to zero. For the third guess, only one target word (QUITE) is consistent with the state, so the **2 or fewer target words** constraint applies and all other actions are masked out, leaving only "QUITE" with nonzero probability.
 
@@ -135,7 +137,7 @@ Below we show an example game and the corresponding masks for each of its three 
   <img src="images/quite_action_mask_3.png" alt="QUITE mask3" width="20%"/>
 </p>
 
-However, if we only constrain the action space with no other changes, the model does not get to experience the negative impacts of those choosing suboptimal actions, depriving it of valuable gradient signals. To address this, we add a KL-divergence loss term (called KL-Guide loss) between the model's raw policy and the constrained policy (a masked, clamped, and renormalized version of the raw policy). This ensures WordleBot’s parameters still receive a learning signal aligned with the inductive biases that we have chosen. In fact, this learning signal is especially rich because it can give feedback on many output probabilities at once, as opposed to experiential learning that only gives feedback on the chosen action. For example, if there is only one possible target word, the KL-Guide loss gives a gradient signal to ALL 12,972 probabilities (namely increase 1 probability and decrease the 12,971 others).  
+However, when we constrain the action space, the model doesn't directly learn through experience to align with the inductive biases, which may deprive the model of valuable gradient signals that are useful for other parts of the game. For example, taking the game above as an example, the never directly learns that "QUITE" is the superior third guess because it is never allowed to choose another guess to compare with. To address this, we add a KL-divergence loss term (called KL-Guide loss) between the model's raw policy \(\pi_{\theta}\) and the constrained policy \(\pi_{\theta, constraints}\). The KL-Guide loss term discourages actions that are masked out without needing to experience them. In fact, the KL-Guide loss provides a much richer learning signal than learning from experience because it can give feedback on many output probabilities at once. For example, in there is only one possible target word, the KL-Guide loss gives a gradient signal to ALL 12,972 probabilities (namely increase 1 probability and decrease the 12,971 others). On the other hand, experiential learning only gives a gradient signal to the single probability whose corresponding action was chosen. Overall, the KL-Guide Loss provides an extremely rich gradient signal to align WordleBot's action probabilities with the inductive biases without needing to experience the masked out actions.  
 
 <div style="font-size:150%">
 $$
@@ -144,10 +146,21 @@ $$
 $$
 </div>
 
+Note that to avoid explosions, we add a small \( \epsilon \) value and renormalize the probabilities fed into the KL-Guide loss. This is especially important for the constrained probabilities, which contain zero values.  
+
+The KL-Guide loss is distinct from trust region policy optimization (TRPO). TRPO is a standard RL training procedure that includes a regularizing KL term (denoted KL-Reg) between the current policy and a reference policy from a previous checkpoint:  
+
+$$
+\mathcal{L}_{\text{KL-Reg}} 
+= D_{\text{KL}}\!\left(\pi \;\|\; \pi_{\text{ref}}\right).
+$$  
+
+Rather than comparing the current policy with a previous checkpoint, the KL-Guide loss compares the current policy with its own constrained version (masked vs. unmasked). Including the KL-Guide loss and KL-Reg loss terms is independent: one, both, or neither can be used. For WordleBot, we apply both.  
+
 
 ### Action-State Attention
 
-WordleBot computes its probability distribution as:  
+WordleBot computes its action probabilities as:  
 
 <div style="font-size:150%">
 $$
@@ -155,15 +168,16 @@ P = \text{softmax}_T \!\left( \frac{\phi_1(A) \, \phi_2(S)}{\sqrt{d}} \right)
 $$
 </div>
 
-
 Where:
-- $\phi_1, \phi_2$ are learned functions
-- $A$ are the action representations  
-- $S$ is the state representation  
-- $d$ is the embedding dimension  
-- $T$ is the temperature parameter  
+- $d$ is the embedding dimension and set as a hyperparameter
+- $A$ are the action representations: shape [|V|, 130]  
+- $S$ is the state representation: shape [292]  
+- $\phi_1 is a learned function: \( \mathbb{R}^{130} \rightarrow \mathbb{R}^{d} \)$
+- $\phi_2$ is a learned function: \( \mathbb{R}^{292} \rightarrow \mathbb{R}^{d} \)
+- $T$ is the temperature parameter
+- $P$ is the action probabilities: shape [V]
 
-Note that when $T = 1$, this is exactly the standard formula for attention weights in Transformers.  
+Note that when $T = 1$, this is exactly the standard formula for attention weights in Transformers. In this analogy, the state embedding acts as a query asking "What action is good given state $S$" and the actions act as different keys, with the resulting attention weights indicating how good an action is for a particular state.
 
 By utilizing embeddings of the state AND actions, rather than just the state, WordleBot is able to transfer information between different actions. For example, if 'FIGHT' is a good guess, then 'MIGHT' probably is too. Most RL systems do not do this, instead embedding the state and projecting to an output dimension the size of the action space. As mentioned in the related existing approaches, [Andrew Ho](https://andrewkho.github.io/wordle-solver/) used a similar mechanism for his deep learning Wordle agent, however that model used a direct dot product without dividing by the square root of the dimensionality.  
 
@@ -188,37 +202,11 @@ The reward for each individual target word is defined as the sum of two componen
 ### Other Notes
 - Normalizing advantages per group helped a lot to improve on harder words.
 - Using a replay loader is an option in WordleBot's training. However the latest iteration of WordleBot does not use it because (1) I didn't see a big difference in performance and (2) guessing words sooner helps my avg number of guesses, whether or not it was a hard word, but a replay loader biases the model to care specifically about the hard words.
+- A KL-Best loss was included in training as well, which penalized the model for diverging from the best model observed so far up until that point in training.
 
 
 
 [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | [Email](mailto:rylieweaver9@gmail.com) | [GitHub](https://github.com/RylieWeaver)  |  [Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  |  [WordleBot Source Code](https://github.com/RylieWeaver/WordleBot)  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
