@@ -209,11 +209,12 @@ The reward for each individual target word is defined as the sum of two componen
 
 ### Thanks
 - Zach Fox, for ideas related to WordleBot's architecture/training and the revision of this page.  
-- My girlfriend, who is my daily Wordle buddy :)  
+- My girlfriend, Anafernanda Cardenas, who is my daily Wordle buddy :)  
 
 
 
 [LinkedIn](https://www.linkedin.com/in/rylie-weaver/) | [Email](mailto:rylieweaver9@gmail.com) | [GitHub](https://github.com/RylieWeaver)  |  [Try WordleBot](https://huggingface.co/spaces/RylieWeaver/WordleBot)  |  [WordleBot Source Code](https://github.com/RylieWeaver/WordleBot)  
+
 
 
 
